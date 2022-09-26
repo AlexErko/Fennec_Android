@@ -1,4 +1,4 @@
-package ua.com.feneec;
+package ua.com.fennec;
 
 import android.content.Context;
 
