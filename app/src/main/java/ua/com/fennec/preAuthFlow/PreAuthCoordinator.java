@@ -55,6 +55,10 @@ public class PreAuthCoordinator extends FennecFragment implements PreAuthRouter{
 
     @Override
     public void showCode(String phone) {
-        addFragment(new CodeFragment(this),true);
+        for (int i = 0; i < fragmentManager.getFragments().size(); i++) {
+
+        }
+
+        addFragment(new CodeFragment(this),false);
     }
 }
