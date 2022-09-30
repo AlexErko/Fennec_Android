@@ -2,6 +2,7 @@ package ua.com.fennec.customs;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -24,6 +25,9 @@ public class FennecBottomFragment extends Fragment {
             }
         });
     }
+    public void dismiss() {
+        getParentFragmentManager().beginTransaction().remove(this).commitAllowingStateLoss();
+    }
     public void hide(View rootView) {
         LinearLayout view = rootView.findViewById(R.id.bottomView);
 
@@ -37,12 +41,13 @@ public class FennecBottomFragment extends Fragment {
                 objectAnimator.addListener(new Animator.AnimatorListener() {
                     @Override
                     public void onAnimationStart(Animator animation) {
-
                     }
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         rootView.setVisibility(View.GONE);
+                        dismiss();
+
                     }
 
                     @Override
