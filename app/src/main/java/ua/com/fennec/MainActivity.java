@@ -20,9 +20,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityRoute
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.Theme_Dark);
+            setTheme(R.style.Theme_Feneec_Dark);
         } else {
-            setTheme(R.style.Theme_Light);
+            setTheme(R.style.Theme_Feneec_Light);
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
