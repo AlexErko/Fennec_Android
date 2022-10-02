@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name" translatable="false">Fennec</string>
-    <string name="enter_by_number">Enter by number</string>
+    <string name="login_by_number">Login from phone</string>
+    <string name="login_by">Login with</string>
+    <string name="sms_will_be_sent_to_this_phone">A confirmation code will be sent to this phone</string>
 </resources>

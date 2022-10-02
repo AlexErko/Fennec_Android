@@ -20,7 +20,31 @@
         <item name="android:background">#272727</item>
     </style>
 
-    <style name="TEXTCOLOR">
-        <item name="android:textColor">#FFFFFFFF</item>
+    <style name="TEXT_COLOR">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+
+    <style name="SUB_SECTION_TITLE">
+        <item name="android:textColor">@color/light_grey_2</item>
+    </style>
+
+    <style name="SUB_SECTION_BACK">
+        <item name="android:background">@color/light_grey_2</item>
+    </style>
+
+
+
+    <style name="INPUT_EDIT_TEXT">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/medium_grey</item>
+    </style>
+
+    <style name="INPUT">
+        <item name="android:background">@drawable/input_background_dark</item>
+    </style>
+
+    <style name="SOCIAL_BACK">
+        <item name="android:background">@drawable/social_background_dark</item>
     </style>
 </resources>

@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="enter_by_number">Увійти з телефону</string>
+    <string name="login_by_number">Увійти з телефону</string>
+    <string name="login_by">Увійти за допомогою</string>
+    <string name="sms_will_be_sent_to_this_phone">На цей номер телефону буде надіслано код для підтвердження</string>
 </resources>
