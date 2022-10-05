@@ -37,32 +37,31 @@ public class ApiService  {
 
 
     //String
-    public interface OnRequestString {
+    public interface ApiServiceOutput {
         void onResponse(JSONObject response, String URI);
-        void onErrorResponse();
+        void onErrorResponse(String message);
     }
 
-    OnRequestString OnRequestString;
+    public ApiServiceOutput OnRequestString;
 
-    public void ListenerOnRequestString(OnRequestString onRequestString) {
-        this.OnRequestString = onRequestString;
-    }
 
     ///Byte
-    public interface OnRequest_byte {
-        void onResponse_byte(byte[] response);
+    public interface ApiServiceByteOutput {
+        void onByteResponse(byte[] response);
     }
 
-    OnRequest_byte OnRequest_byte;
+    ApiServiceByteOutput OnRequest_byte;
 
-    public void ListenerOnRequest_byte(OnRequest_byte onRequest_byte) {
-        this.OnRequest_byte = onRequest_byte;
 
+
+
+    enum RequestType {
+        String,
+        Byte
     }
-
-    public void send(final String URI, String type) {
+    public void send(final String URI, RequestType type) {
         final String json = api_params.toString();
-        if (type.equals("str") || type.equals("String")) {
+        if (type == RequestType.String) {
             RequestQueue queue = null;
             queue = Volley.newRequestQueue(context);
 
@@ -71,32 +70,18 @@ public class ApiService  {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                if (new JSONObject(response).getInt("status") == 1) {
 
-                                }
                                 OnRequestString.onResponse(new JSONObject(response), URI);
 
                             } catch (JSONException json_e) {
-                                OnRequestString.onErrorResponse();
+                                OnRequestString.onErrorResponse("Unexpected error from server");
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("######", "qqwe");
-
-                            NetworkResponse errorRes = error.networkResponse;
-                            String stringData = "";
-                            if (errorRes != null && errorRes.data != null) {
-                                try {
-                                    stringData = new String(errorRes.data, "UTF-8");
-                                } catch (UnsupportedEncodingException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            OnRequestString.onErrorResponse();
+                            OnRequestString.onErrorResponse(error.getLocalizedMessage());
                         }
                     }) {
                 @Override
@@ -114,7 +99,7 @@ public class ApiService  {
             return;
         }
 
-        if (type.equals("byte")) {
+        if (type == RequestType.Byte) {
             byte_params.put("data", json);
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.POST, Constants.HOST + "?loc=" + URI,
                     new Response.Listener<byte[]>() {
@@ -122,7 +107,7 @@ public class ApiService  {
                         public void onResponse(byte[] response) {
                             try {
                                 if (response != null) {
-                                    OnRequest_byte.onResponse_byte(response);
+                                    OnRequest_byte.onByteResponse(response);
                                 }
                             } catch (Exception e) {
                                 Log.d("KEY_ERROR", "UNABLE TO DOWNLOAD FILE");

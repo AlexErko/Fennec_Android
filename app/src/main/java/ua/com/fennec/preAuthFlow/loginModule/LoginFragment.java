@@ -20,6 +20,7 @@ public class LoginFragment extends Fragment {
 
     private PreAuthRouter router;
     private View rootView;
+
     public LoginFragment(PreAuthRouter router) {
         this.router = router;
     }
