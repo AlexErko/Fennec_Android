@@ -44,6 +44,7 @@ $RECYCLE.BIN/
 .DS_Store
 .AppleDouble
 .LSOverride
+Constants.java
 
 # Icon must end with two \r
 Icon
@@ -691,4 +692,6 @@ dkms.conf
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+
 
