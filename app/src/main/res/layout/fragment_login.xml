@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/SCREEN"
+    tools:context=".preAuthFlow.loginModule.LoginFragment">
+
+
+
+
+    <ImageView
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="56dp"
+        android:src="@drawable/image_fennec_logo"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="43dp"
+        style="@style/TEXT_COLOR"
+        android:gravity="center"
+        android:fontFamily="@font/lato_regular"
+        android:textFontWeight="600"
+        android:textSize="36dp"
+        android:text="FENNEC"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp"
+        android:layout_marginHorizontal="17dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_weight="2"
+                style="@style/SUB_SECTION_BACK"
+                android:layout_gravity="center_vertical"
+                tools:ignore="Suspicious0dp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                style="@style/SUB_SECTION_TITLE"
+                android:text="@string/login_by_number"
+                android:layout_marginHorizontal="12dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_weight="2"
+                style="@style/SUB_SECTION_BACK"
+                android:layout_gravity="center_vertical"
+                tools:ignore="Suspicious0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="24dp"
+            style="@style/INPUT"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:inputType="number"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:background="@null"
+                android:layout_marginHorizontal="24dp"
+                android:hint="+38 (___) ___-__-__"/>
+        </LinearLayout>
+
+        
+        
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/lato_regular"
+            android:textSize="14dp"
+            style="@style/SUB_SECTION_TITLE"
+            android:layout_marginTop="24dp"
+            android:text="@string/sms_will_be_sent_to_this_phone"/>
+
+
+        <ua.com.fennec.customs.ui.confirmButton.ConfirmButton
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/login"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="40dp"
+        android:layout_marginHorizontal="17dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_weight="2"
+                style="@style/SUB_SECTION_BACK"
+                android:layout_gravity="center_vertical"
+                tools:ignore="Suspicious0dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/login_by"
+                android:fontFamily="@font/lato_regular"
+                android:textFontWeight="500"
+                android:textSize="16dp"
+                style="@style/SUB_SECTION_TITLE"
+                android:layout_marginHorizontal="12dp"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_weight="2"
+                style="@style/SUB_SECTION_BACK"
+                android:layout_gravity="center_vertical"
+                tools:ignore="Suspicious0dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginTop="24dp"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/googleButton"
+                android:minWidth="172dp"
+                android:layout_marginRight="6dp"
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                style="@style/SOCIAL_BACK">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/image_google_logo"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textStart"
+                    style="@style/TEXT_COLOR"
+                    android:gravity="center_vertical"
+                    android:text="Google"
+                    android:fontFamily="@font/lato_regular"
+                    android:textFontWeight="500"
+                    android:textSize="16dp"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_weight="2"
+                android:minWidth="172dp"
+                android:layout_marginLeft="6dp"
+                android:orientation="horizontal"
+                android:layout_height="match_parent"
+                style="@style/SOCIAL_BACK">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/image_facebook_logo"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    style="@style/TEXT_COLOR"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textStart"
+                    android:fontFamily="@font/lato_regular"
+                    android:textFontWeight="500"
+                    android:textSize="16dp"
+                    android:gravity="center_vertical"
+                    android:text="Facebook"
+                    tools:ignore="RtlCompat" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
