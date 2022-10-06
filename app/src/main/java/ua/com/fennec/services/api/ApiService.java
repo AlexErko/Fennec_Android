@@ -37,72 +37,59 @@ public class ApiService  {
 
 
     //String
-    public interface OnRequestString {
+    public interface ApiServiceOutput {
         void onResponse(JSONObject response, String URI);
-        void onErrorResponse();
+        void onErrorResponse(String message);
     }
 
-    OnRequestString OnRequestString;
+    public ApiServiceOutput OnRequestString;
 
-    public void ListenerOnRequestString(OnRequestString onRequestString) {
-        this.OnRequestString = onRequestString;
-    }
 
     ///Byte
-    public interface OnRequest_byte {
-        void onResponse_byte(byte[] response);
+    public interface ApiServiceByteOutput {
+        void onByteResponse(byte[] response);
     }
 
-    OnRequest_byte OnRequest_byte;
+    ApiServiceByteOutput OnRequest_byte;
 
-    public void ListenerOnRequest_byte(OnRequest_byte onRequest_byte) {
-        this.OnRequest_byte = onRequest_byte;
 
-    }
 
-    public void send(final String URI, String type) {
+
+    public void send(final String URI, ApiRequestType type) {
+        add_post_param("key_api", Constants.KEY_API);
         final String json = api_params.toString();
-        if (type.equals("str") || type.equals("String")) {
+        if (type == ApiRequestType.String) {
             RequestQueue queue = null;
             queue = Volley.newRequestQueue(context);
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.HOST + "/" + LocaleUtils.getPrefLangCode(context) + "/" + "?loc=" + URI,
+            String url = Constants.HOST + "/" + "?loc=" + URI;
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                if (new JSONObject(response).getInt("status") == 1) {
+                                Log.d(Constants.TAG, "ApiResponse " + url + "\n" + response);
 
-                                }
                                 OnRequestString.onResponse(new JSONObject(response), URI);
 
                             } catch (JSONException json_e) {
-                                OnRequestString.onErrorResponse();
+                                OnRequestString.onErrorResponse("Unexpected error from server");
                             }
                         }
                     },
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("######", "qqwe");
-
-                            NetworkResponse errorRes = error.networkResponse;
-                            String stringData = "";
-                            if (errorRes != null && errorRes.data != null) {
-                                try {
-                                    stringData = new String(errorRes.data, "UTF-8");
-                                } catch (UnsupportedEncodingException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-
-                            OnRequestString.onErrorResponse();
+                            OnRequestString.onErrorResponse("error.getLocalizedMessage()");
                         }
                     }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
+
                     params.put("data", json);
+                    Log.d(Constants.TAG, "ApiBody " + url + "\n" + params.toString());
+
                     clear_post_param();
 
                     return params;
@@ -114,7 +101,7 @@ public class ApiService  {
             return;
         }
 
-        if (type.equals("byte")) {
+        if (type == ApiRequestType.Byte) {
             byte_params.put("data", json);
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.POST, Constants.HOST + "?loc=" + URI,
                     new Response.Listener<byte[]>() {
@@ -122,7 +109,7 @@ public class ApiService  {
                         public void onResponse(byte[] response) {
                             try {
                                 if (response != null) {
-                                    OnRequest_byte.onResponse_byte(response);
+                                    OnRequest_byte.onByteResponse(response);
                                 }
                             } catch (Exception e) {
                                 Log.d("KEY_ERROR", "UNABLE TO DOWNLOAD FILE");
