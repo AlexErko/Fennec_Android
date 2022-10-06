@@ -55,21 +55,20 @@ public class ApiService  {
 
 
 
-    enum RequestType {
-        String,
-        Byte
-    }
-    public void send(final String URI, RequestType type) {
+    public void send(final String URI, ApiRequestType type) {
+        add_post_param("key_api", Constants.KEY_API);
         final String json = api_params.toString();
-        if (type == RequestType.String) {
+        if (type == ApiRequestType.String) {
             RequestQueue queue = null;
             queue = Volley.newRequestQueue(context);
 
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, Constants.HOST + "/" + LocaleUtils.getPrefLangCode(context) + "/" + "?loc=" + URI,
+            String url = Constants.HOST + "/" + "?loc=" + URI;
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
+                                Log.d(Constants.TAG, "ApiResponse " + url + "\n" + response);
 
                                 OnRequestString.onResponse(new JSONObject(response), URI);
 
@@ -81,13 +80,16 @@ public class ApiService  {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            OnRequestString.onErrorResponse(error.getLocalizedMessage());
+                            OnRequestString.onErrorResponse("error.getLocalizedMessage()");
                         }
                     }) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<String, String>();
+
                     params.put("data", json);
+                    Log.d(Constants.TAG, "ApiBody " + url + "\n" + params.toString());
+
                     clear_post_param();
 
                     return params;
@@ -99,7 +101,7 @@ public class ApiService  {
             return;
         }
 
-        if (type == RequestType.Byte) {
+        if (type == ApiRequestType.Byte) {
             byte_params.put("data", json);
             InputStreamVolleyRequest request = new InputStreamVolleyRequest(Request.Method.POST, Constants.HOST + "?loc=" + URI,
                     new Response.Listener<byte[]>() {
