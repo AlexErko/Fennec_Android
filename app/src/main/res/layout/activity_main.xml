@@ -14,10 +14,11 @@
         android:id="@+id/fragmentContainer"/>
 
     <FrameLayout
-        android:id="@+id/PreAuthIndicatorCont"
+        android:id="@+id/indicatorView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:visibility="gone"
         android:orientation="vertical">
         <pl.droidsonroids.gif.GifImageView
             android:background="@drawable/indicator_background"

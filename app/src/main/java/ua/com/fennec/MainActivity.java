@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import ua.com.fennec.preAuthFlow.PreAuthCoordinator;
+import ua.com.fennec.services.loading.LoadingService;
 
 public class MainActivity extends AppCompatActivity implements MainActivityRouter {
 
@@ -26,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityRoute
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        LoadingService.setIndicator(findViewById(R.id.indicatorView));
         toPreAuthCoordinator();
     }
 
