@@ -67,7 +67,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
             public void onClick(View v) {
                 if (confirmButton.isActivated() == true) {
                     EditText logEdit = rootView.findViewById(R.id.editText1);
-                    interactor.authPhone(logEdit.getText().toString().replace("+", "").replace("(", "").replace(")", "").replace(" ", "").replace("-", ""));
+                    interactor.authPhone(logEdit.getText().toString());
                 }
             }
         });
