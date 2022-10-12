@@ -24,18 +24,20 @@ import java.util.Map;
 
 import ua.com.fennec.Constants;
 import ua.com.fennec.services.locale.LocaleUtils;
+import ua.com.fennec.services.storage.StorageService;
 
 
 public class ApiService  {
 
     public JSONObject api_params = new JSONObject();
     public Map<String, String> byte_params = new HashMap<String, String>();
-    public Context context;
+    private Context context;
+    private StorageService storage;
 
-
-    /*----------------------------------*/
-
-
+    public ApiService(Context context) {
+        this.context = context;
+        this.storage = new StorageService(context);
+    }
     //String
     public interface ApiServiceOutput {
         void onResponse(JSONObject response, String URI);
@@ -56,7 +58,8 @@ public class ApiService  {
 
 
     public void send(final String URI, ApiRequestType type) {
-        add_post_param("key_api", Constants.KEY_API);
+        add_post_param("apikey", Constants.KEY_API);
+        add_post_param("token", storage.getToken());
         final String json = api_params.toString();
         if (type == ApiRequestType.String) {
             RequestQueue queue = null;
@@ -80,7 +83,7 @@ public class ApiService  {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            OnRequestString.onErrorResponse("error.getLocalizedMessage()");
+                            Log.d(Constants.TAG, "ApiError " + url + "\n" + "error.getLocalizedMessage()");
                         }
                     }) {
                 @Override
@@ -127,12 +130,6 @@ public class ApiService  {
             mRequestQueue.add(request);
         }
 
-    }
-
-    /*----------------------------------*/
-
-    public void init(Context context) {
-        this.context = context;
     }
 
     public Boolean add_post_param(String param_name, String param_value) {

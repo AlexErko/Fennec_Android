@@ -16,9 +16,8 @@ public class LoginInteractor implements ApiService.ApiServiceOutput {
     ApiService apiService;
     LoginInteractor(LoginInteractorOutput output, Context context) {
       this.output = output;
-      this.apiService = new ApiService();
-      this.apiService.init(context);
-        this.apiService.OnRequestString = this;
+      this.apiService = new ApiService(context);
+      this.apiService.OnRequestString = this;
     };
 
 
