@@ -19,6 +19,9 @@
     <style name="SCREEN">
         <item name="android:background">#272727</item>
     </style>
+    <style name="BOTTOM_FRAGMENT">
+        <item name="android:background">@drawable/bottom_fragment_background_dark</item>
+    </style>
 
     <style name="TEXT_COLOR">
         <item name="android:textColor">@color/white</item>

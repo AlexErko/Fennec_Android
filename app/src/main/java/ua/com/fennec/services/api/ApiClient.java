@@ -47,6 +47,7 @@ public class ApiClient {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.d(Constants.TAG, "ApiResponse " + url + "\n" + response);
                         output.onResponse(response, URI);
                     }
                 },

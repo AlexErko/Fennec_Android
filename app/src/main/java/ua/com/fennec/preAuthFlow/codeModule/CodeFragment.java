@@ -3,7 +3,9 @@ package ua.com.fennec.preAuthFlow.codeModule;
 import android.content.Context;
 import android.os.Bundle;
 
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,21 +17,29 @@ import ua.com.fennec.R;
 import ua.com.fennec.customs.FennecBottomFragment;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.customs.swipeGesture.OnSwipeTouchListener;
+import ua.com.fennec.preAuthFlow.codeModule.interfaces.CodeInteractorOutput;
+import ua.com.fennec.preAuthFlow.loginModule.LoginInteractor;
+import ua.com.fennec.services.KeyboardService;
 
 
-public class CodeFragment extends FennecBottomFragment {
+public class CodeFragment extends FennecBottomFragment implements CodeInteractorOutput {
 
 
     View rootView;
 
     private PreAuthRouter router;
-    public CodeFragment(PreAuthRouter router) {
+    private CodeInteractor interactor;
+    private String userPhone;
+
+    public CodeFragment(PreAuthRouter router, String phone) {
         this.router = router;
+        this.userPhone = phone;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.interactor = new CodeInteractor(this, getContext());
 
 
 
@@ -49,11 +59,29 @@ public class CodeFragment extends FennecBottomFragment {
         rootView.findViewById(R.id.bottomView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("###", "asda");
             }
         });
 
+        ((EditText) rootView.findViewById(R.id.editText1)).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String code = s.toString();
+                if (code.length() == 3) {
+                    KeyboardService.hideKeyboard(getActivity());
+                    interactor.confirmAuthPhone(userPhone, code);
+                }
+            }
+        });
         rootView.findViewById(R.id.bottomView).setOnTouchListener(new OnSwipeTouchListener() {
             public boolean onSwipeBottom() {
                     hide(rootView);
@@ -67,5 +95,10 @@ public class CodeFragment extends FennecBottomFragment {
             }
         });
         return rootView;
+    }
+
+    @Override
+    public void phoneDidConfirmed(String phone) {
+
     }
 }

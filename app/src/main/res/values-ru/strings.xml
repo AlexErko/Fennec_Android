@@ -4,4 +4,5 @@
     <string name="login_by">Войти с помощью</string>
     <string name="sms_will_be_sent_to_this_phone">На этот номер телефона будет отправлен код для подтверждения</string>
     <string name="login">Войти</string>
+    <string name="confirmation_code">Код подтверждения</string>
 </resources>

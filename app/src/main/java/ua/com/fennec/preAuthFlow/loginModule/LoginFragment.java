@@ -20,6 +20,8 @@ import ua.com.fennec.R;
 import ua.com.fennec.customs.ui.confirmButton.ConfirmButton;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.loginModule.interfaces.LoginInteractorOutput;
+import ua.com.fennec.services.KeyboardService;
+import ua.com.fennec.services.loading.LoadingService;
 
 public class LoginFragment extends Fragment implements LoginInteractorOutput {
 
@@ -66,6 +68,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
             @Override
             public void onClick(View v) {
                 if (confirmButton.isActivated() == true) {
+                    KeyboardService.hideKeyboard(getActivity());
                     EditText logEdit = rootView.findViewById(R.id.editText1);
                     interactor.authPhone(logEdit.getText().toString());
                 }
@@ -138,7 +141,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
         logEdit.setSelection(returnedString.length());
     }
     @Override
-    public void codeDidSent() {
-
+    public void codeDidSent(String phone) {
+        router.showCode(phone);
     }
 }
