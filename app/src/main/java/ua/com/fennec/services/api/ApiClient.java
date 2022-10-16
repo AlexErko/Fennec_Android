@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
+import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,19 +21,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ua.com.fennec.Constants;
+import ua.com.fennec.R;
+import ua.com.fennec.services.message.MessageService;
 import ua.com.fennec.services.storage.StorageService;
 
 public class ApiClient {
     public interface ApiClientOutput {
-        void onResponse(String response, String URI);
-        void onErrorResponse(String message, String URI);
+        void onResponse(String response);
+        void onErrorResponse();
     }
 
     private RequestQueue queue;
     private StorageService storage;
-
+    private Context context;
 
     public ApiClient(Context context) {
+        this.context = context;
         this.queue = Volley.newRequestQueue(context);
         this.storage = new StorageService(context);
     }
@@ -48,24 +52,19 @@ public class ApiClient {
                     @Override
                     public void onResponse(String response) {
                         Log.d(Constants.TAG, "ApiResponse " + url + "\n" + response);
-                        output.onResponse(response, URI);
+                        output.onResponse(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
 
-                        NetworkResponse errorRes = error.networkResponse;
-                        String stringData = "";
-                        if (errorRes != null && errorRes.data != null) {
-                            try {
-                                stringData = new String(errorRes.data, "UTF-8");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
+                        if (error.networkResponse == null) {
+                            MessageService.showMessage(context.getString(R.string.no_internet_connection), MessageService.Type.error, context);
+                        } else {
+                            MessageService.showMessage(context.getString(R.string.unexpected_response_from_the_server) + ". " + context.getString(R.string.please_try_again_later) + ".", MessageService.Type.error, context);
                         }
-
-//                        output.onErrorResponse("ApiError " + url + "\n" + "error.getLocalizedMessage()", URI);
+                        output.onErrorResponse();
                         Log.d(Constants.TAG, "ApiError " + url + "\n" + error.getMessage());
                     }
                 }) {

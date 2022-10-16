@@ -10,4 +10,6 @@
     <string name="successful_operation">Успішна операція</string>
     <string name="info">Інформація</string>
     <string name="no_internet_connection">Відсутнє підключення до Інтернету</string>
+    <string name="unexpected_response_from_the_server">Несподівана відповідь від сервера</string>
+    <string name="please_try_again_later">Будь ласка, спробуйте пізніше</string>
 </resources>

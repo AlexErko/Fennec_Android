@@ -22,7 +22,7 @@ public class ApiService  {
     public void confirmAuthPhone(ConfirmAuthPhoneBody body, ApiServiceOutput<ApiAnswerModel> output) {
         client.send(ApiEndpoints.f_api_auth_phone_confirm, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
-            public void onResponse(String response, String URI) {
+            public void onResponse(String response) {
                 ApiAnswerModel answer = null;
                 try {
                     answer = new ApiAnswerModel(response);
@@ -33,7 +33,7 @@ public class ApiService  {
 
             }
             @Override
-            public void onErrorResponse(String message, String URI) {
+            public void onErrorResponse() {
                 output.onResponse(null);
             }
         });
@@ -42,7 +42,7 @@ public class ApiService  {
     public void authPhone(AuthPhoneBody body, ApiServiceOutput<ApiAnswerModel> output) {
         client.send(ApiEndpoints.f_api_auth_phone, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
-            public void onResponse(String response, String URI) {
+            public void onResponse(String response) {
                 ApiAnswerModel answer = null;
                 try {
                     answer = new ApiAnswerModel(response);
@@ -53,7 +53,7 @@ public class ApiService  {
 
             }
             @Override
-            public void onErrorResponse(String message, String URI) {
+            public void onErrorResponse() {
                 output.onResponse(null);
             }
         });
