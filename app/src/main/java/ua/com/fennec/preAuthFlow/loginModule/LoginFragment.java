@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,6 +24,7 @@ import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.loginModule.interfaces.LoginInteractorOutput;
 import ua.com.fennec.services.KeyboardService;
 import ua.com.fennec.services.loading.LoadingService;
+import ua.com.fennec.services.message.MessageService;
 
 public class LoginFragment extends Fragment implements LoginInteractorOutput {
 
@@ -38,7 +41,6 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         interactor = new LoginInteractor(this, getContext());
-
     }
 
 

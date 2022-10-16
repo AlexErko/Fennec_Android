@@ -5,4 +5,9 @@
     <string name="sms_will_be_sent_to_this_phone">На этот номер телефона будет отправлен код для подтверждения</string>
     <string name="login">Войти</string>
     <string name="confirmation_code">Код подтверждения</string>
+    <string name="error">Ошибка</string>
+    <string name="warning">Предупреждение</string>
+    <string name="successful_operation">Успешная операция</string>
+    <string name="info">Информация</string>
+    <string name="no_internet_connection">Отсутствует подключение к интернету</string>
 </resources>

@@ -5,4 +5,9 @@
     <string name="sms_will_be_sent_to_this_phone">На цей номер телефону буде надіслано код для підтвердження</string>
     <string name="login">Увійти</string>
     <string name="confirmation_code">Код підтвердження</string>
+    <string name="error">Помилка</string>
+    <string name="warning">Застереження</string>
+    <string name="successful_operation">Успішна операція</string>
+    <string name="info">Інформація</string>
+    <string name="no_internet_connection">Відсутнє підключення до Інтернету</string>
 </resources>

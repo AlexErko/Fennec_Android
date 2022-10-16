@@ -2,6 +2,7 @@ package ua.com.fennec;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import ua.com.fennec.preAuthFlow.PreAuthCoordinator;
 import ua.com.fennec.services.loading.LoadingService;
+import ua.com.fennec.services.message.MessageService;
 
 public class MainActivity extends AppCompatActivity implements MainActivityRouter {
 
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityRoute
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         LoadingService.setIndicator(findViewById(R.id.indicatorView));
+        FrameLayout messageLayout = findViewById(R.id.messageLayout);
+        MessageService.setView(messageLayout);
         toPreAuthCoordinator();
     }
 
