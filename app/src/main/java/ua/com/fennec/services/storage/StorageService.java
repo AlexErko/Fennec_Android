@@ -18,11 +18,15 @@ public class StorageService {
 
 
 
+    public void setToken(String token) {
+        client.setString(StorageClient.Keys.TOKEN, token);
+    }
+
 
     public String getToken() {
-        String  returnedValue = client.getString(StorageClient.Keys.TOKEN);
-        if (returnedValue.equals("")) {
-
+        return client.getString(StorageClient.Keys.TOKEN);
+    }
+    public String getDeviceToken() {
             String m_szDevIDShort = "35" + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10) + (Build.PRODUCT.length() % 10);
 
             String serial = null;
@@ -32,8 +36,6 @@ public class StorageService {
             } catch (Exception exception) {
                 serial = "serial";
             }
-            returnedValue = new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
-        }
-        return  returnedValue;
+            return new UUID(m_szDevIDShort.hashCode(), serial.hashCode()).toString();
     }
 }

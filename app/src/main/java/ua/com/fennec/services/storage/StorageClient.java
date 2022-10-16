@@ -15,18 +15,10 @@ public class StorageClient {
     StorageClient(Context context) {
         this.sharedpreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
-    public <T> void setValue(Keys key, T val) {
+    public void setString(Keys key, String val) {
         SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putString(key.val,val);
 
-        if (val instanceof String) {
-            editor.putString(key.val, (String) val);
-        }
-        if (val instanceof Integer) {
-            editor.putInt(key.val, (Integer) val);
-        }
-        if (val instanceof Boolean) {
-            editor.putBoolean(key.val, (Boolean) val);
-        }
         editor.commit();
     }
 
