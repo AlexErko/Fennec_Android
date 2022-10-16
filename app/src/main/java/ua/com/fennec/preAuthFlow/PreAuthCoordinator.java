@@ -18,6 +18,7 @@ import ua.com.fennec.R;
 import ua.com.fennec.customs.FennecFragment;
 import ua.com.fennec.preAuthFlow.codeModule.CodeFragment;
 import ua.com.fennec.preAuthFlow.loginModule.LoginFragment;
+import ua.com.fennec.services.storage.StorageService;
 
 public class PreAuthCoordinator extends FennecFragment implements PreAuthRouter{
 
@@ -49,8 +50,9 @@ public class PreAuthCoordinator extends FennecFragment implements PreAuthRouter{
 
 
     @Override
-    public void toProfile(String user) {
-
+    public void toProfile(String token) {
+        new StorageService(getContext()).setToken(token);
+        router.toAfterAuthCoordinator();
     }
 
     @Override
