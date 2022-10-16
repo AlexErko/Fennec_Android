@@ -9,15 +9,17 @@ import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.loading.LoadingService;
+import ua.com.fennec.services.message.MessageService;
 
 public class CodeInteractor {
 
 
-    CodeInteractorOutput output;
-    ApiService apiService;
-    
+    private CodeInteractorOutput output;
+    private ApiService apiService;
+    private Context context;
     CodeInteractor(CodeInteractorOutput output, Context context) {
       this.output = output;
+      this.context = context;
       this.apiService = new ApiService(context);
     };
 
@@ -32,9 +34,9 @@ public class CodeInteractor {
                 LoadingService.end();
                 if (response != null) {
                     if (response.status == 0) {
-//                        output.codeDidSent(body.phone);
+                        output.phoneDidConfirmed(phone, "response.token");
                     } else {
-
+                        MessageService.showMessage(response.message, MessageService.Type.error, context);
                     }
                 }
 

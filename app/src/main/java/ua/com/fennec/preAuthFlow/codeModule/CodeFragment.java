@@ -20,6 +20,7 @@ import ua.com.fennec.customs.swipeGesture.OnSwipeTouchListener;
 import ua.com.fennec.preAuthFlow.codeModule.interfaces.CodeInteractorOutput;
 import ua.com.fennec.preAuthFlow.loginModule.LoginInteractor;
 import ua.com.fennec.services.KeyboardService;
+import ua.com.fennec.services.message.MessageService;
 
 
 public class CodeFragment extends FennecBottomFragment implements CodeInteractorOutput {
@@ -98,7 +99,7 @@ public class CodeFragment extends FennecBottomFragment implements CodeInteractor
     }
 
     @Override
-    public void phoneDidConfirmed(String phone) {
-
+    public void phoneDidConfirmed(String phone, String token) {
+        MessageService.showMessage("Телефон подтвержён", MessageService.Type.success, getContext());
     }
 }
