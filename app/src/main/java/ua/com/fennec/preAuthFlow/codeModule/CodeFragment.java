@@ -43,7 +43,6 @@ public class CodeFragment extends FennecBottomFragment implements CodeInteractor
         this.interactor = new CodeInteractor(this, getContext());
 
 
-
     }
 
 
@@ -100,6 +99,6 @@ public class CodeFragment extends FennecBottomFragment implements CodeInteractor
 
     @Override
     public void phoneDidConfirmed(String phone, String token) {
-        MessageService.showMessage("Телефон подтвержён", MessageService.Type.success, getContext());
+        MessageService.showMessage(getContext().getString(R.string.phone_confirmed), MessageService.Type.success, getContext());
     }
 }
