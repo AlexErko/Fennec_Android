@@ -31,7 +31,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
 
     private PreAuthRouter router;
     private View rootView;
-    boolean allowMask = false;
+    boolean allowMask = true;
     private LoginInteractor interactor;
 
     public LoginFragment(PreAuthRouter router) {

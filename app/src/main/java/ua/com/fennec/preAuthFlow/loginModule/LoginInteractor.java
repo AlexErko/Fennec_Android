@@ -14,15 +14,18 @@ import ua.com.fennec.services.api.ApiServiceOutput;
 import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.loading.LoadingService;
+import ua.com.fennec.services.message.MessageService;
 
 public class LoginInteractor {
 
 
-    LoginInteractorOutput output;
-    ApiService apiService;
+    private LoginInteractorOutput output;
+    private ApiService apiService;
+    private Context context;
 
     LoginInteractor(LoginInteractorOutput output, Context context) {
       this.output = output;
+      this.context = context;
       this.apiService = new ApiService(context);
     };
 
@@ -39,7 +42,7 @@ public class LoginInteractor {
                     if (response.status == 0) {
                         output.codeDidSent(body.phone);
                     } else {
-
+                        MessageService.showMessage(response.message, MessageService.Type.error, context);
                     }
                 }
 
