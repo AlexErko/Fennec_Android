@@ -13,4 +13,10 @@
     <string name="unexpected_response_from_the_server">Несподівана відповідь від сервера</string>
     <string name="please_try_again_later">Будь ласка, спробуйте пізніше</string>
     <string name="phone_confirmed">Телефон підтверджено</string>
+    <string name="profile">Профіль</string>
+    <string name="name">Імʼя</string>
+    <string name="phone">Телефон</string>
+    <string name="email">Електронна пошта</string>
+    <string name="company_name">Назва компанії</string>
+    <string name="fop_matvienko">ФОП Матвієнко</string>
 </resources>

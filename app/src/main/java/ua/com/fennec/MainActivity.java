@@ -14,26 +14,28 @@ import ua.com.fennec.afterAuthFlow.AfterAuthCoordinator;
 import ua.com.fennec.preAuthFlow.PreAuthCoordinator;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
+import ua.com.fennec.services.storage.StorageService;
 
 public class MainActivity extends AppCompatActivity implements MainActivityRouter {
 
 
     Fragment current;
-
+    StorageService storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-            setTheme(R.style.Theme_Feneec_Dark);
-        } else {
-            setTheme(R.style.Theme_Feneec_Light);
-        }
+        setTheme(R.style.Theme_Feneec_Light);
         super.onCreate(savedInstanceState);
+        storage = new StorageService(this);
         setContentView(R.layout.activity_main);
         LoadingService.setIndicator(findViewById(R.id.indicatorView));
         FrameLayout messageLayout = findViewById(R.id.messageLayout);
         MessageService.setView(messageLayout);
-        toPreAuthCoordinator();
+        if (storage.getToken() == "") {
+            toPreAuthCoordinator();
+        } else {
+            toAfterAuthCoordinator();
+        }
     }
 
     @Override

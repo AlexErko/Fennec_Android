@@ -11,7 +11,6 @@ public class StorageService {
     StorageClient client;
 
 
-
     public StorageService(Context context) {
         this.client = new StorageClient(context);
     }

@@ -5,9 +5,8 @@ import android.content.Context;
 import ua.com.fennec.preAuthFlow.codeModule.interfaces.CodeInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
-import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
+import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneModel;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -28,15 +27,15 @@ public class CodeInteractor {
     void confirmAuthPhone(String phone, String code) {
         LoadingService.start();
         ConfirmAuthPhoneBody body = new ConfirmAuthPhoneBody(phone, code);
-        apiService.confirmAuthPhone(body, new ApiServiceOutput<ApiAnswerModel>() {
+        apiService.confirmAuthPhone(body, new ApiServiceOutput<ApiConfirmAuthPhoneModel>() {
             @Override
-            public void onResponse(ApiAnswerModel response) {
+            public void onResponse(ApiConfirmAuthPhoneModel response) {
                 LoadingService.end();
                 if (response != null) {
-                    if (response.status == 0) {
-                        output.phoneDidConfirmed(phone, "response.token");
+                    if (response.answer.status == 0) {
+                        output.phoneDidConfirmed(phone, response.token);
                     } else {
-                        MessageService.showMessage(response.message, MessageService.Type.error, context);
+                        MessageService.showMessage(response.answer.message, MessageService.Type.error, context);
                     }
                 }
 

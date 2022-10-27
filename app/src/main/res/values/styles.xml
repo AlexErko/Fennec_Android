@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="H1Regular">
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+    <style name="H2Regular">
+        <item name="android:textSize">16dp</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+    <style name="T1">
+        <item name="android:textSize">14dp</item>
+        <item name="android:fontFamily">@font/lato_regular</item>
+    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <style name="TITLE" parent="TEXT_COLOR">
+        <item name="android:textAppearance">@style/H1Regular</item>
+    </style>
+</resources>

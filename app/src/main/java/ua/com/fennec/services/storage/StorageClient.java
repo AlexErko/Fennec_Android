@@ -9,11 +9,15 @@ public class StorageClient {
 
 
     private static final String PREFS_NAME = "Fennec";
-    private SharedPreferences sharedpreferences;
+    private static SharedPreferences sharedpreferences;
+    public static StorageClient shared;
 
 
     StorageClient(Context context) {
-        this.sharedpreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        if (sharedpreferences == null) {
+            this.sharedpreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+            StorageClient.shared = this;
+        }
     }
     public void setString(Keys key, String val) {
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -33,7 +37,7 @@ public class StorageClient {
         return sharedpreferences.getString(key.val, "");
     }
 
-    enum Keys {
+    public enum Keys {
 
         TOKEN ("token");
 

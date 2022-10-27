@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Timer;
 
 import ua.com.fennec.R;
+import ua.com.fennec.customs.ui.FennecEditText;
 import ua.com.fennec.customs.ui.confirmButton.ConfirmButton;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.loginModule.interfaces.LoginInteractorOutput;
@@ -49,6 +50,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_login, container, false);
+
         ((EditText) rootView.findViewById(R.id.editText1)).addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -71,7 +73,8 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
             public void onClick(View v) {
                 if (confirmButton.isActivated() == true) {
                     KeyboardService.hideKeyboard(getActivity());
-                    EditText logEdit = rootView.findViewById(R.id.editText1);
+                    FennecEditText logEdit = rootView.findViewById(R.id.editText1);
+                    logEdit.setEditable(getContext(), false);
                     interactor.authPhone(logEdit.getText().toString());
                 }
             }
@@ -86,10 +89,10 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
         if (allowMask == false){
             ConfirmButton button = rootView.findViewById(R.id.confirmButton);
             if (logEdit.getText().toString().length() == 19) {
-                button.setActivated(true);
+                button.setActivated(getContext(), true);
             } else {
                 if (button.isActivated() != false) {
-                    button.setActivated(false);
+                    button.setActivated(getContext(), false);
                 }
             }
             allowMask = true;

@@ -13,4 +13,10 @@
     <string name="unexpected_response_from_the_server">Unexpected response from the server</string>
     <string name="please_try_again_later">Please try again later</string>
     <string name="phone_confirmed">Phone confirmed</string>
+    <string name="profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="company_name">Company name</string>
+    <string name="fop_matvienko">FOP Matvienko</string>
 </resources>

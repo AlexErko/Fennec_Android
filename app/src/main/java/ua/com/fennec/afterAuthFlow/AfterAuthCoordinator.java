@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import ua.com.fennec.MainActivityRouter;
 import ua.com.fennec.R;
+import ua.com.fennec.afterAuthFlow.profileModule.ProfileFragment;
 import ua.com.fennec.customs.FennecFragment;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.codeModule.CodeFragment;
@@ -36,12 +37,13 @@ public class AfterAuthCoordinator extends FennecFragment implements AfterAuthRou
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         init();
+        toProfile();
     }
 
 
     @Override
     public void toProfile() {
-
+        showFragment(new ProfileFragment(this), false);
     }
 
     @Override

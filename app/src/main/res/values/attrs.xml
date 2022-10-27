@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ConfirmButton">
+        <attr name="isActive" format="boolean"/>
+    </declare-styleable>
+
+
+
+    <declare-styleable name="FennecEditText">
+        <attr name="isEditable" format="boolean"/>
+    </declare-styleable>
+
+
+</resources>
+

@@ -21,8 +21,6 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-
-
     <style name="SUB_SECTION_TITLE">
         <item name="android:textColor">@color/medium_grey</item>
     </style>
@@ -44,6 +42,15 @@
     <style name="SOCIAL_BACK">
         <item name="android:background">@drawable/social_background_light</item>
     </style>
+
+    <style name="MENU_BUTTON">
+        <item name="android:src">@drawable/image_menu_light</item>
+    </style>
+
+    <style name="ADD_IMAGE">
+        <item name="android:src">@drawable/image_add_image_light</item>
+    </style>
+
 </resources>
 
 
