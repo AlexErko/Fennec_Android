@@ -28,6 +28,7 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -54,6 +55,7 @@ import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.AfterAuthRouter;
 import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.customs.ui.confirmButton.ConfirmButton;
+import ua.com.fennec.globalModules.getPhotoModule.GetPhotoFragment;
 import ua.com.fennec.models.Profile;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.services.KeyboardService;
@@ -138,6 +140,12 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
                     KeyboardService.hideKeyboard(getActivity());
                     interactor.updateProfile(new UpdateProfileBody(profile.user_phone, companyEditText.getText().toString(), nameEditText.getText().toString(), emailEditText.getText().toString()));
                 }
+            }
+        });
+        rootView.findViewById(R.id.userImageView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetPhotoFragment.showFragment((AppCompatActivity) getActivity());
             }
         });
         return rootView;
