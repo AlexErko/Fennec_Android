@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
+import ua.com.fennec.services.string.StringService;
 
 public class Profile {
     public String company_name;
@@ -19,5 +20,28 @@ public class Profile {
             this.company_logo = jsonObject.getJSONObject("result").getString("company_logo");
             this.user_email = jsonObject.getJSONObject("result").getString("user_email");
             this.company_name = jsonObject.getJSONObject("result").getString("company_name");
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject jsonObject = new JSONObject();
+        JSONObject resultObject = new JSONObject();
+        resultObject.put("user_name", user_name);
+        resultObject.put("user_phone", user_phone);
+        resultObject.put("company_logo", company_logo);
+        resultObject.put("user_email", user_email);
+        resultObject.put("company_name", company_name);
+
+        jsonObject.put("result",resultObject);
+        return jsonObject;
+    }
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "company_name='" + company_name + '\'' +
+                ", company_logo='" + company_logo + '\'' +
+                ", user_name='" + user_name + '\'' +
+                ", user_phone='" + user_phone + '\'' +
+                ", user_email='" + user_email + '\'' +
+                '}';
     }
 }

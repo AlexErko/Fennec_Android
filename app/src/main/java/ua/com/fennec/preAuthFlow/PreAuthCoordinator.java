@@ -51,9 +51,7 @@ public class PreAuthCoordinator extends FennecFragment implements PreAuthRouter{
 
     @Override
     public void toProfile(String token) {
-        StorageService storage = new StorageService(getContext());
-        storage.setToken(token);
-//        new StorageService(getContext()).setToken(token);
+        StorageService.shared.setToken(token);
         router.toAfterAuthCoordinator();
     }
 

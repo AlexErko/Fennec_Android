@@ -20,18 +20,17 @@ public class MainActivity extends AppCompatActivity implements MainActivityRoute
 
 
     Fragment current;
-    StorageService storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.Theme_Feneec_Light);
         super.onCreate(savedInstanceState);
-        storage = new StorageService(this);
+        StorageService.initShared(this);
         setContentView(R.layout.activity_main);
         LoadingService.setIndicator(findViewById(R.id.indicatorView));
         FrameLayout messageLayout = findViewById(R.id.messageLayout);
         MessageService.setView(messageLayout);
-        if (storage.getToken() == "") {
+        if (StorageService.shared.getToken() == "") {
             toPreAuthCoordinator();
         } else {
             toAfterAuthCoordinator();

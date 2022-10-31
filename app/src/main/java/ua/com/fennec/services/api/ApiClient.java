@@ -32,23 +32,21 @@ public class ApiClient {
     }
 
     private RequestQueue queue;
-    private StorageService storage;
     private Context context;
 
     public ApiClient(Context context) {
         this.context = context;
         this.queue = Volley.newRequestQueue(context);
-        this.storage = new StorageService(context);
     }
 
 
 
     public void send(String URI, JSONObject body, ApiClientOutput output) {
         addParam(body, "apikey", Constants.KEY_API);
-        if (storage.getToken() != "") {
-            addParam(body, "token", storage.getToken());
+        if (StorageService.shared.getToken() != "") {
+            addParam(body, "token", StorageService.shared.getToken());
         } else {
-            addParam(body, "token", storage.getDeviceToken());
+            addParam(body, "token", StorageService.shared.getDeviceToken());
         }
         String url = Constants.HOST + "/" + "?loc=" + URI;
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,

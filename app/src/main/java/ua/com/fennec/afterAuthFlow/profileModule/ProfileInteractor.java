@@ -7,6 +7,7 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 
 import ua.com.fennec.Constants;
+import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
@@ -36,16 +37,17 @@ public class ProfileInteractor {
             @Nullable
             @Override
             public void onResponse(ApiGetProfileModel response) {
-//                LoadingService.end();
-            }
-        });
-    }
-    void uploadCompanyLogo(Bitmap bitmap) {
-        LoadingService.start();
-        apiService.uploadCompanyImage(bitmap, new ApiServiceOutput<ApiAnswerModel>() {
-            @Nullable
-            @Override
-            public void onResponse(ApiAnswerModel response) {
+                if (response != null) {
+                    if (response.answer.status == 0) {
+                        if (response.profile != null) {
+                            output.profileDidUpdated(response.profile);
+                        } else {
+                            MessageService.showMessage(context.getString(R.string.unexpected_response_from_the_server), MessageService.Type.error, context);
+                        }
+                    } else {
+                        MessageService.showMessage(response.answer.message, MessageService.Type.error, context);
+                    }
+                }
                 LoadingService.end();
             }
         });
@@ -55,12 +57,17 @@ public class ProfileInteractor {
         apiService.getProfile(new ApiServiceOutput<ApiGetProfileModel>() {
             @Override
             public void onResponse(ApiGetProfileModel response) {
-                Log.d(Constants.TAG, response.profile.company_logo);
-                Log.d(Constants.TAG, response.profile.company_name);
-                Log.d(Constants.TAG, response.profile.user_email);
-                Log.d(Constants.TAG, response.profile.user_phone);
-                Log.d(Constants.TAG, response.profile.user_name);
-
+                if (response != null) {
+                    if (response.answer.status == 0) {
+                        if (response.profile != null) {
+                            output.profileDidGot(response.profile);
+                        } else {
+                            MessageService.showMessage(context.getString(R.string.unexpected_response_from_the_server), MessageService.Type.error, context);
+                        }
+                    } else {
+                        MessageService.showMessage(response.answer.message, MessageService.Type.error, context);
+                    }
+                }
                 LoadingService.end();
             }
         });

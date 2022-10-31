@@ -3,15 +3,26 @@ package ua.com.fennec.services.storage;
 import android.content.Context;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+
+import org.json.JSONException;
 
 import java.util.UUID;
 
+import ua.com.fennec.Constants;
+import ua.com.fennec.models.Profile;
+
 public class StorageService {
 
-    StorageClient client;
+    private StorageClient client;
+    public static StorageService shared;
 
 
-    public StorageService(Context context) {
+    public static StorageService initShared(Context context) {
+        StorageService.shared = new StorageService(context);
+        return StorageService.shared;
+    }
+    private StorageService(Context context) {
         this.client = new StorageClient(context);
     }
 
@@ -20,8 +31,26 @@ public class StorageService {
     public void setToken(String token) {
         client.setString(StorageClient.Keys.TOKEN, token);
     }
+    public void setProfile(Profile profile) {
+        if (profile != null) {
+            try {
+                String profileString = profile.toJSON().toString();
+                client.setString(StorageClient.Keys.PROFILE, profileString);
+            } catch (JSONException exception) {
+                exception.printStackTrace();
+            }
+        }
+    }
+    public Profile getProfile() {
+        Profile profile = null;
 
-
+        try {
+            profile = new Profile(client.getString(StorageClient.Keys.PROFILE));
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+        return profile;
+    }
     public String getToken() {
         return client.getString(StorageClient.Keys.TOKEN);
     }

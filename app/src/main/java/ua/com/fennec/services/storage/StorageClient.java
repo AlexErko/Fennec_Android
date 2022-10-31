@@ -39,7 +39,8 @@ public class StorageClient {
 
     public enum Keys {
 
-        TOKEN ("token");
+        TOKEN ("token"),
+        PROFILE ("profile");
 
         private String val;
 

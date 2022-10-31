@@ -19,4 +19,6 @@
     <string name="email">Електронна пошта</string>
     <string name="company_name">Назва компанії</string>
     <string name="fop_matvienko">ФОП Матвієнко</string>
+    <string name="save">Зберегти</string>
+    <string name="profile_updated">Профіль оновлено</string>
 </resources>

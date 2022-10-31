@@ -19,5 +19,7 @@
     <string name="email">Email</string>
     <string name="company_name">Company name</string>
     <string name="fop_matvienko">FOP Matvienko</string>
+    <string name="save">Save</string>
+    <string name="profile_updated">Profile updated</string>
 
 </resources>

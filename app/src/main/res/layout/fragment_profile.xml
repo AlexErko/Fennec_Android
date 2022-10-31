@@ -27,136 +27,158 @@
             android:layout_marginRight="32dp"/>
     </LinearLayout>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:orientation="vertical"
         android:layout_marginTop="8dp"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:layout_width="172dp"
-            android:layout_height="94dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            style="@style/ADD_IMAGE"
-            android:id="@+id/imageView"
-            android:layout_gravity="center_horizontal"/>
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="17dp"
-        android:text="@string/name"
-        style="@style/SUB_SECTION_TITLE"
-        android:textAppearance="@style/T1"/>
-
-    <ua.com.fennec.customs.ui.FennecEditText
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginHorizontal="17dp"
-        android:hint="@string/name"
-        android:inputType="textPersonName"
-        android:textAppearance="@style/H2Regular"
-        android:maxLines="1"
-        android:singleLine="true"
-        app:isEditable="true"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="17dp"
-        android:text="@string/phone"
-        style="@style/SUB_SECTION_TITLE"
-        android:textAppearance="@style/T1"/>
-
-    <ua.com.fennec.customs.ui.FennecEditText
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginHorizontal="17dp"
-        android:inputType="number"
-        android:textAppearance="@style/H2Regular"
-        android:maxLines="1"
-        android:singleLine="true"
-        app:isEditable="true"
-        android:hint="+38 (___) ___-__-__"
-        />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginHorizontal="17dp"
-        android:text="@string/email"
-        style="@style/SUB_SECTION_TITLE"
-        android:textAppearance="@style/T1"/>
-
-    <ua.com.fennec.customs.ui.FennecEditText
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:gravity="center_vertical"
-        android:paddingHorizontal="24dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginHorizontal="17dp"
-        android:inputType="textEmailAddress"
-        android:textAppearance="@style/H2Regular"
-        android:maxLines="1"
-        android:singleLine="true"
-        app:isEditable="true"
-        android:hint="fennec@gmail.com"
-        />
-    
-    
-    <LinearLayout
-        android:layout_marginTop="40dp"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/light_grey_2"/>
-
-
-
-        <ImageView
-            android:layout_width="172dp"
-            android:layout_height="94dp"
-            android:layout_marginTop="40dp"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            style="@style/ADD_IMAGE"
-            android:id="@+id/imageView2"
-            android:layout_gravity="center_horizontal"/>
-
-
-
-        <TextView
+        android:layout_weight="1"
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginHorizontal="17dp"
-            android:text="@string/company_name"
-            style="@style/SUB_SECTION_TITLE"
-            android:textAppearance="@style/T1"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="172dp"
+                android:layout_height="94dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                style="@style/ADD_IMAGE"
+                android:id="@+id/userImageView"
+                android:layout_gravity="center_horizontal"/>
 
-        <ua.com.fennec.customs.ui.FennecEditText
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:gravity="center_vertical"
-            android:paddingHorizontal="24dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginHorizontal="17dp"
-            android:inputType="text"
-            android:textAppearance="@style/H2Regular"
-            android:maxLines="1"
-            android:singleLine="true"
-            app:isEditable="true"
-            android:hint="@string/fop_matvienko"
-            />
-</LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="17dp"
+                android:text="@string/name"
+                style="@style/SUB_SECTION_TITLE"
+                android:textAppearance="@style/T1"/>
+
+            <ua.com.fennec.customs.ui.FennecEditText
+                android:id="@+id/nameEditText"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:imeOptions="actionDone"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:hint="@string/name"
+                android:inputType="textPersonName"
+                android:maxLines="1"
+                android:paddingHorizontal="24dp"
+                android:singleLine="true"
+                android:textAppearance="@style/H2Regular"
+                app:isEditable="true" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="17dp"
+                android:text="@string/phone"
+                style="@style/SUB_SECTION_TITLE"
+                android:textAppearance="@style/T1"/>
+
+            <ua.com.fennec.customs.ui.FennecEditText
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="17dp"
+                android:inputType="number"
+                android:textAppearance="@style/H2Regular"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:isEditable="false"
+                android:hint="+38 (___) ___-__-__"
+                android:id="@+id/phoneEditText"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="17dp"
+                android:text="@string/email"
+                style="@style/SUB_SECTION_TITLE"
+                android:textAppearance="@style/T1"/>
+
+            <ua.com.fennec.customs.ui.FennecEditText
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="24dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginHorizontal="17dp"
+                android:inputType="textEmailAddress"
+                android:textAppearance="@style/H2Regular"
+                android:maxLines="1"
+                android:singleLine="true"
+                app:isEditable="true"
+                android:imeOptions="actionDone"
+
+                android:hint="fennec@gmail.com"
+                android:id="@+id/emailEditText"
+                />
+
+
+            <LinearLayout
+                android:layout_marginTop="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/light_grey_2"/>
+
+
+
+            <ImageView
+                android:layout_width="172dp"
+                android:layout_height="94dp"
+                android:layout_marginTop="40dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                style="@style/ADD_IMAGE"
+                android:id="@+id/companyImageView"
+                android:layout_gravity="center_horizontal"/>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginHorizontal="17dp"
+                android:text="@string/company_name"
+                style="@style/SUB_SECTION_TITLE"
+                android:textAppearance="@style/T1"/>
+
+            <ua.com.fennec.customs.ui.FennecEditText
+                android:id="@+id/companyEditText"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginHorizontal="17dp"
+                android:layout_marginTop="4dp"
+                android:gravity="center_vertical"
+                android:hint="@string/fop_matvienko"
+                android:inputType="text"
+                android:maxLines="1"
+                android:paddingHorizontal="24dp"
+                android:singleLine="true"
+                android:imeOptions="actionDone"
+                android:textAppearance="@style/H2Regular"
+                app:isEditable="true" />
+        </LinearLayout>
+
+</ScrollView>
+
+        <ua.com.fennec.customs.ui.confirmButton.ConfirmButton
+            android:layout_width="146dp"
+            android:text="@string/save"
+            app:isActive="false"
+            android:id="@+id/saveButton"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="37dp"
+            android:layout_height="46dp"/>
 </LinearLayout>

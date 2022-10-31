@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,12 +19,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -50,12 +54,15 @@ import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.AfterAuthRouter;
 import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.customs.ui.confirmButton.ConfirmButton;
+import ua.com.fennec.models.Profile;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.services.KeyboardService;
 import ua.com.fennec.services.api.DataPart;
 import ua.com.fennec.services.api.VolleyMultipartRequest;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
+import ua.com.fennec.services.message.MessageService;
 import ua.com.fennec.services.storage.StorageService;
+import ua.com.fennec.services.string.StringService;
 
 public class ProfileFragment extends Fragment implements ProfileInteractorOutput{
 
@@ -64,12 +71,8 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
     private View rootView;
     private ProfileInteractor interactor;
 
-
-    private static final int REQUEST_PERMISSIONS = 100;
-    private Bitmap bitmap;
-    private String filePath;
-
-
+    private Profile profile = null;
+    private TextWatcher textWatcher = null;
     public ProfileFragment(AfterAuthRouter router) {
         this.router = router;
     }
@@ -77,97 +80,105 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         interactor = new ProfileInteractor(this, getContext());
-        interactor.getProfile();
-        interactor.updateProfile(new UpdateProfileBody("380673223276", "CAFsdaE", "Alasex", "losassha.asd@asda.aas"));
+        initTextWatcher();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Profile profile = StorageService.shared.getProfile();
+        if (profile != null) {
+            this.profile = profile;
+            configView(profile);
+        }
+        interactor.getProfile();
+    }
 
-
+    private void initTextWatcher() {
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                textChanged();
+            }
+        };
+    }
+    private void configView(Profile profile) {
+        if (StringService.isNull(profile.user_name) == false) {
+            ((EditText) rootView.findViewById(R.id.nameEditText)).setText(profile.user_name);
+        }
+        if (StringService.isNull(profile.user_email) == false) {
+            ((EditText) rootView.findViewById(R.id.emailEditText)).setText(profile.user_email);
+        }
+        if (StringService.isNull(profile.user_phone) == false) {
+            ((EditText) rootView.findViewById(R.id.phoneEditText)).setText(profile.user_phone);
+        }
+        if (StringService.isNull(profile.company_name) == false) {
+            ((EditText) rootView.findViewById(R.id.companyEditText)).setText(profile.company_name);
+        }
+        ((ConfirmButton) rootView.findViewById(R.id.saveButton)).setActivated(getContext(), false);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-
-        rootView.findViewById(R.id.imageView).setOnClickListener(new View.OnClickListener() {
+        EditText nameEditText = ((EditText) rootView.findViewById(R.id.nameEditText));
+        nameEditText.addTextChangedListener(textWatcher);
+        EditText emailEditText = ((EditText) rootView.findViewById(R.id.emailEditText));
+        emailEditText.addTextChangedListener(textWatcher);
+        EditText companyEditText = ((EditText) rootView.findViewById(R.id.companyEditText));
+        companyEditText.addTextChangedListener(textWatcher);
+        rootView.findViewById(R.id.saveButton).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                requestPermissions();
+            public void onClick(View v) {
+                if (((ConfirmButton) rootView.findViewById(R.id.saveButton)).isActivated()) {
+                    KeyboardService.hideKeyboard(getActivity());
+                    interactor.updateProfile(new UpdateProfileBody(profile.user_phone, companyEditText.getText().toString(), nameEditText.getText().toString(), emailEditText.getText().toString()));
+                }
             }
         });
         return rootView;
     }
-    private void requestPermissions(){
-        if ((ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getContext(),
-                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED)) {
-            if ((ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) && (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                    Manifest.permission.READ_EXTERNAL_STORAGE))) {
 
+    public void textChanged() {
+        Boolean buttonIsActive = true;
+        if (profile != null) {
+            String newName = ((EditText) rootView.findViewById(R.id.nameEditText)).getText().toString();
+            if (newName.length() > 2 && buttonIsActive == true) {
+                buttonIsActive = true;
             } else {
-                ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE},
-                        REQUEST_PERMISSIONS);
+                buttonIsActive = false;
+            }
+            String newEmail = ((EditText) rootView.findViewById(R.id.emailEditText)).getText().toString();
+            if (newEmail.contains("@") && buttonIsActive == true) {
+                buttonIsActive = true;
+            } else {
+                buttonIsActive = false;
+            }
+            String newCompanyName = ((EditText) rootView.findViewById(R.id.companyEditText)).getText().toString();
+            if (newCompanyName.length() > 2 && buttonIsActive == true) {
+                buttonIsActive = true;
+            } else {
+                buttonIsActive = false;
             }
         } else {
-            showFileChooser();
+            buttonIsActive = false;
         }
-
+        ((ConfirmButton) rootView.findViewById(R.id.saveButton)).setActivated(getContext(), buttonIsActive);
     }
-    private void showFileChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-
-        someActivityResultLauncher.launch(Intent.createChooser(intent, "Select Picture"));
-    }
-
-
-
-    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-                    if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null && result.getData().getData() != null) {
-                        Uri picUri = result.getData().getData();
-                        filePath = getPath(picUri);
-                        if (filePath != null) {
-                            try {
-
-                                bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), picUri);
-                                interactor.uploadCompanyLogo(bitmap);
-                                ((ImageView) rootView.findViewById(R.id.imageView)).setImageBitmap(bitmap);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        } else {
-                            Toast.makeText(
-                                    getContext(),"no image selected",
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                }
-            });
-
-
-
-    public String getPath(Uri uri) {
-        Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, null);
-        cursor.moveToFirst();
-        String document_id = cursor.getString(0);
-        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
-        cursor.close();
-
-        cursor = getActivity().getContentResolver().query(
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
-        cursor.moveToFirst();
-        @SuppressLint("Range") String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
-        cursor.close();
-
-        return path;
+    @Override
+    public void profileDidGot(Profile profile) {
+        StorageService.shared.setProfile(profile);
+        this.profile = profile;
+        configView(profile);
     }
 
+    @Override
+    public void profileDidUpdated(Profile profile) {
+        MessageService.showMessage(getContext().getString(R.string.profile_updated), MessageService.Type.success, getContext());
+        profileDidGot(profile);
+    }
 }

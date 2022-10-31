@@ -33,13 +33,11 @@ import ua.com.fennec.services.storage.StorageService;
 
 public class ApiImageClient {
     private RequestQueue queue;
-    private StorageService storage;
     private Context context;
 
     public ApiImageClient(Context context) {
         this.context = context;
         this.queue = Volley.newRequestQueue(context);
-        this.storage = new StorageService(context);
     }
 
 
@@ -80,7 +78,7 @@ public class ApiImageClient {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("data", "{\"token\":\"" + storage.getToken() + "\"," + "\"apikey\":\"" + Constants.KEY_API + "\"}");
+                params.put("data", "{\"token\":\"" + StorageService.shared.getToken() + "\"," + "\"apikey\":\"" + Constants.KEY_API + "\"}");
                 Log.d(Constants.TAG, "ApiImageBody " + url + "\n" + params.toString());
                 return params;
             }
