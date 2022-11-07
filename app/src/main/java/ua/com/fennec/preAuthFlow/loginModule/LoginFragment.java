@@ -74,7 +74,7 @@ public class LoginFragment extends Fragment implements LoginInteractorOutput {
                 if (confirmButton.isActivated() == true) {
                     KeyboardService.hideKeyboard(getActivity());
                     FennecEditText logEdit = rootView.findViewById(R.id.editText1);
-                    logEdit.setEditable(getContext(), false);
+//                    logEdit.setEditable(getContext(), false);
                     interactor.authPhone(logEdit.getText().toString());
                 }
             }

@@ -11,5 +11,15 @@
     </declare-styleable>
 
 
+
+    <declare-styleable name="SectionSwitcher">
+        <attr name="firstTitle" format="string"/>
+        <attr name="secondTitle" format="string"/>
+        <attr name="sectionIsActive" format="enum">
+            <enum name="first" value="0"/>
+            <enum name="second" value="1"/>
+        </attr>
+    </declare-styleable>
+
 </resources>
 

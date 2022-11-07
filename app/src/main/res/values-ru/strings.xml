@@ -21,4 +21,6 @@
     <string name="fop_matvienko">ФОП Матвиенко</string>
     <string name="save">Сохранить</string>
     <string name="profile_updated">Профиль обновлен</string>
+    <string name="personal">Личные</string>
+    <string name="public1">Публичные</string>
 </resources>

@@ -77,6 +77,12 @@ final public class GetPhotoFragment extends Fragment {
                 return true;
             }
         });
+        rootView.findViewById(R.id.bottomView).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         rootView.findViewById(R.id.shadow).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
