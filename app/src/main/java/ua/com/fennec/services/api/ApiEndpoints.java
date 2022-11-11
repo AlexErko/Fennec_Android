@@ -12,5 +12,8 @@ public class ApiEndpoints {
     public static final String f_api_profile_user_image_add = "f_api_profile_user_image_add";
 
 
-
+    public static String f_api_gallery_private_get = "f_api_gallery_private_get";
+    public static String f_api_gallery_public_get = "f_api_gallery_public_get";
 }
+
+

@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
@@ -45,9 +47,16 @@ public class FennecBottomFragment extends Fragment {
 
                     @Override
                     public void onAnimationEnd(Animator animation) {
-                        rootView.setVisibility(View.GONE);
-                        dismiss();
-
+                        if (this != null) {
+                            if (rootView != null) {
+                                rootView.setVisibility(View.GONE);
+                                ViewParent parent = rootView.getParent();
+                                if (parent != null) {
+                                    ((ViewGroup) parent.getParent()).removeView((View) rootView.getParent());
+                                    dismiss();
+                                }
+                            }
+                        }
                     }
 
                     @Override

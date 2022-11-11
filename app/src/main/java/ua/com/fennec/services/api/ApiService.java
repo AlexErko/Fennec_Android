@@ -13,6 +13,7 @@ import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneModel;
+import ua.com.fennec.services.api.responseModels.ApiGetGallery;
 import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
 
 
@@ -114,7 +115,49 @@ public class ApiService  {
             }
         });
     }
+    public void getPrivateGallery(ApiServiceOutput<ApiGetGallery> output) {
+        client.send(ApiEndpoints.f_api_gallery_private_get, new JSONObject(), new ApiClient.ApiClientOutput() {
+            @Override
+            public void onResponse(String response) {
+                ApiGetGallery answer = null;
+                Log.d(Constants.TAG, response);
+                try {
+                    answer = new ApiGetGallery(response);
+                } catch (JSONException exception) {
+                    Log.d(Constants.TAG, "Catch Error getPublicGallery");
+                    exception.printStackTrace();
+                }
+                output.onResponse(answer);
 
+            }
+            @Override
+            public void onErrorResponse() {
+                output.onResponse(null);
+            }
+        });
+    }
+
+    public void getPublicGallery(ApiServiceOutput<ApiGetGallery> output) {
+        client.send(ApiEndpoints.f_api_gallery_public_get, new JSONObject(), new ApiClient.ApiClientOutput() {
+            @Override
+            public void onResponse(String response) {
+                ApiGetGallery answer = null;
+                Log.d(Constants.TAG, response);
+                try {
+                    answer = new ApiGetGallery(response);
+                } catch (JSONException exception) {
+                    Log.d(Constants.TAG, "Catch Error getPublicGallery");
+                    exception.printStackTrace();
+                }
+                output.onResponse(answer);
+
+            }
+            @Override
+            public void onErrorResponse() {
+                output.onResponse(null);
+            }
+        });
+    }
     public void updateProfile(UpdateProfileBody body, ApiServiceOutput<ApiGetProfileModel> output) {
         client.send(ApiEndpoints.f_api_profile_update, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override

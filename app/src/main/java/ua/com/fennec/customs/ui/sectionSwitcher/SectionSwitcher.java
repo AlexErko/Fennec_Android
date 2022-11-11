@@ -24,7 +24,7 @@ public class SectionSwitcher extends LinearLayout {
     private FrameLayout selectedSectionBack;
     private TextView firstTitle;
     private TextView secondTitle;
-    private onSectionChangeListener changeListener;
+    private OnSectionChangedListener changeListener;
     public SectionSwitcher(Context context) {
         super(context);
         config(null, context);
@@ -95,7 +95,7 @@ public class SectionSwitcher extends LinearLayout {
         }
     }
 
-    public void setOnSectionChangeListener(onSectionChangeListener listener) {
+    public void setOnSectionChangeListener(OnSectionChangedListener listener) {
         changeListener = listener;
     }
 
@@ -131,6 +131,4 @@ public class SectionSwitcher extends LinearLayout {
         secondTitle.setTextColor(section == 1 ? textActivatedColor : textCommonColor);
     }
 }
-interface onSectionChangeListener {
-    void sectionChanged(Boolean isFirstSelected);
-}
+
