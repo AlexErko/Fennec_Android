@@ -75,8 +75,8 @@ public class ApiService  {
 
 
 
-    public void uploadCompanyImage(Bitmap image, ApiServiceOutput<ApiAnswerModel> output) {
-        imageClient.send(ApiEndpoints.f_api_profile_company_image_add, image, new ApiClient.ApiClientOutput() {
+    public void uploadImage(Bitmap image, ApiServiceOutput<ApiAnswerModel> output) {
+        imageClient.send(ApiEndpoints.f_api_gallery_add, image, new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
                 ApiAnswerModel answer = null;

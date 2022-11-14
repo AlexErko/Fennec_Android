@@ -1,12 +1,15 @@
 package ua.com.fennec.globalModules.getPhotoModule;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,6 +22,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -29,11 +33,17 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.dhaval2404.imagepicker.ImagePicker;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.Instant;
 import java.util.ArrayList;
 
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
+import kotlin.jvm.internal.Intrinsics;
+import pub.devrel.easypermissions.EasyPermissions;
 import ua.com.fennec.Constants;
+import ua.com.fennec.MainActivity;
 import ua.com.fennec.R;
 import ua.com.fennec.customs.FennecBottomFragment;
 import ua.com.fennec.customs.swipeGesture.OnSwipeTouchListener;
@@ -44,6 +54,7 @@ import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorO
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.loginModule.LoginFragment;
 import ua.com.fennec.services.KeyboardService;
+import ua.com.fennec.services.unit.Unit;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -55,6 +66,8 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
     private GetPhotoRecycleAdapter publicAdapter = null;
     private GetPhotoRecycleAdapter privateAdapter = null;
     private Boolean isPrivateSection = true;
+
+    ArrayList<Uri> list = new ArrayList<>();
     public static GetPhotoFragment showFragment(AppCompatActivity activity) {
         int layoutId = View.generateViewId();
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
@@ -83,6 +96,7 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
         super.onCreate(savedInstanceState);
         interactor = new GetPhotoInteractor(getContext(), this);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -139,24 +153,44 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
         rootView.findViewById(R.id.addImageButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImagePicker.with(getActivity())
-                        .crop()	    			//Crop image(Optional), Check Customization for more option
-                        .compress(1024)			//Final image size will be less than 1 MB(Optional)
-                        .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-                        .start();
+                String[] strings = {Manifest.permission.READ_EXTERNAL_STORAGE};
+                if (EasyPermissions.hasPermissions(getContext(), strings)) {
+                    Intent i = new Intent(Intent.ACTION_PICK);
+                    i.setType("image/*");
+                    someActivityResultLauncher.launch(i);
+                } else {
+                    Log.d(Constants.TAG, "Request");
+                    EasyPermissions.requestPermissions(getActivity() ,"App nee", 100, strings);
+                }
             }
         });
         return rootView;
     }
-    ActivityResultLauncher<Intent> launcher=
-            registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),(ActivityResult result)->{
-                if(result.getResultCode()==RESULT_OK){
-                    Uri uri=result.getData().getData();
-                    // Use the uri to load the image
-                }else if(result.getResultCode()== RESULT_CANCELED){
-                    // Use ImagePicker.Companion.getError(result.getData()) to show an error
+
+
+    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
+    ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Uri uri= result.getData().getData();
+                        try {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver() , uri);
+                            interactor.uploadImage(bitmap);
+                        } catch (Exception e)
+                        {
+                            //handle exception
+                        }
+                        Log.d(Constants.TAG, uri.toString());
+//                        imageView.setImageURI(uri);
+
+                    }
                 }
             });
+
+
     private void show() {
         LinearLayout view = rootView.findViewById(R.id.bottomView);
         KeyboardService.hideKeyboard(getActivity());

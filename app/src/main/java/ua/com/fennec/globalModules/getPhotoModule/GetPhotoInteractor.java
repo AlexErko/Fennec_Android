@@ -1,6 +1,7 @@
 package ua.com.fennec.globalModules.getPhotoModule;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOut
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
+import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.api.responseModels.ApiGetGallery;
 import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
 import ua.com.fennec.services.loading.LoadingService;
@@ -30,6 +32,22 @@ public class GetPhotoInteractor {
 
 
 
+    void uploadImage(Bitmap bitmap) {
+        LoadingService.start();
+        apiService.uploadImage(bitmap, new ApiServiceOutput<ApiAnswerModel>() {
+            @Nullable
+            @Override
+            public void onResponse(ApiAnswerModel response) {
+                if (response != null) {
+                    if (response.status == 0) {
+                            getPrivateGallery();
+                    } else {
+                        MessageService.showMessage(response.message, MessageService.Type.error, context);
+                    }
+                }
+            }
+        });
+    }
 
     void getPrivateGallery() {
         apiService.getPrivateGallery(new ApiServiceOutput<ApiGetGallery>() {

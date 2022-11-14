@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityRoute
         } else {
             toAfterAuthCoordinator();
         }
+
+
+
     }
 
     @Override
