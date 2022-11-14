@@ -28,6 +28,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.BitmapCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -178,6 +179,13 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
                         Uri uri= result.getData().getData();
                         try {
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver() , uri);
+                            Log.d(Constants.TAG, BitmapCompat.getAllocationByteCount(bitmap) + " BYTES");
+                            float aspectRatio = bitmap.getWidth() /
+                                    (float) bitmap.getHeight();
+                            int height = 480;
+                            int width = Math.round(height * aspectRatio);
+                            bitmap = Bitmap.createScaledBitmap(
+                                    bitmap, width, height, false);
                             interactor.uploadImage(bitmap);
                         } catch (Exception e)
                         {
