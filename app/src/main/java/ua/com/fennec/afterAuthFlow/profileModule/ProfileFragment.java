@@ -1,72 +1,36 @@
 package ua.com.fennec.afterAuthFlow.profileModule;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.android.volley.NetworkResponse;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import com.bumptech.glide.Glide;
 
 import ua.com.fennec.Constants;
-import ua.com.fennec.MainActivity;
 import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.AfterAuthRouter;
 import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.customs.ui.confirmButton.ConfirmButton;
 import ua.com.fennec.globalModules.getPhotoModule.GetPhotoFragment;
+import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoOutput;
 import ua.com.fennec.models.Profile;
-import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.services.KeyboardService;
-import ua.com.fennec.services.api.DataPart;
-import ua.com.fennec.services.api.VolleyMultipartRequest;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
 import ua.com.fennec.services.message.MessageService;
 import ua.com.fennec.services.storage.StorageService;
 import ua.com.fennec.services.string.StringService;
 
-public class ProfileFragment extends Fragment implements ProfileInteractorOutput{
+public class ProfileFragment extends Fragment implements ProfileInteractorOutput {
 
 
     private AfterAuthRouter router;
@@ -75,6 +39,8 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
 
     private Profile profile = null;
     private TextWatcher textWatcher = null;
+    private String newUserLogo = "";
+    private String newCompanyLogo = "";
     public ProfileFragment(AfterAuthRouter router) {
         this.router = router;
     }
@@ -109,6 +75,8 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
         };
     }
     private void configView(Profile profile) {
+        newCompanyLogo = profile.company_logo;
+        newUserLogo = profile.user_logo;
         if (StringService.isNull(profile.user_name) == false) {
             ((EditText) rootView.findViewById(R.id.nameEditText)).setText(profile.user_name);
         }
@@ -121,6 +89,13 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
         if (StringService.isNull(profile.company_name) == false) {
             ((EditText) rootView.findViewById(R.id.companyEditText)).setText(profile.company_name);
         }
+        if (StringService.isNull(profile.company_logo) == false) {
+            Glide.with(getContext()).load(Constants.HOST + "/" + profile.company_logo).into(((ImageView) rootView.findViewById(R.id.companyImageView)));
+        }
+        if (StringService.isNull(profile.user_logo) == false) {
+            Glide.with(getContext()).load(Constants.HOST + "/" + profile.user_logo).into(((ImageView) rootView.findViewById(R.id.userImageView)));
+        }
+
         ((ConfirmButton) rootView.findViewById(R.id.saveButton)).setActivated(getContext(), false);
     }
     @Override
@@ -138,14 +113,40 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
             public void onClick(View v) {
                 if (((ConfirmButton) rootView.findViewById(R.id.saveButton)).isActivated()) {
                     KeyboardService.hideKeyboard(getActivity());
-                    interactor.updateProfile(new UpdateProfileBody(profile.user_phone, companyEditText.getText().toString(), nameEditText.getText().toString(), emailEditText.getText().toString()));
+                    interactor.updateProfile(new UpdateProfileBody(profile.user_phone, companyEditText.getText().toString(), nameEditText.getText().toString(), emailEditText.getText().toString(), newCompanyLogo, newUserLogo));
                 }
             }
         });
-        rootView.findViewById(R.id.userImageView).setOnClickListener(new View.OnClickListener() {
+        rootView.findViewById(R.id.menuButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                GetPhotoFragment.showFragment((AppCompatActivity) getActivity());
+                router.showMenu();
+            }
+        });
+        ImageView userImageView = rootView.findViewById(R.id.userImageView);
+        userImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetPhotoFragment.showFragment((AppCompatActivity) getActivity(), new GetPhotoOutput() {
+                    @Override
+                    public void photoDidGot(String path) {
+                        newUserLogo = path;
+                        Glide.with(getContext()).load(Constants.HOST + "/" + path).into(userImageView);
+                    }
+                });
+            }
+        });
+        ImageView companyImageView = rootView.findViewById(R.id.companyImageView);
+        companyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GetPhotoFragment.showFragment((AppCompatActivity) getActivity(), new GetPhotoOutput() {
+                    @Override
+                    public void photoDidGot(String path) {
+                        newCompanyLogo = path;
+                        Glide.with(getContext()).load(Constants.HOST + "/" + path).into(companyImageView);
+                    }
+                });
             }
         });
         return rootView;

@@ -23,4 +23,15 @@
     <string name="profile_updated">Профіль оновлено</string>
     <string name="personal">Особисті</string>
     <string name="public1">Публічні</string>
+    <string name="menu">Меню</string>
+    <string name="products">Товари</string>
+    <string name="product_groups">Групи товарів</string>
+    <string name="staff">Співробітники</string>
+    <string name="statistics">Статистика</string>
+    <string name="sales_history">Історія продаж</string>
+    <string name="trading_networks">Торгівельні мережі</string>
+    <string name="expenses">Витрати</string>
+    <string name="shops">Магазини</string>
+    <string name="panel">Панель</string>
+    <string name="logout">Вийти</string>
 </resources>

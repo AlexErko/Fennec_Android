@@ -52,6 +52,8 @@ import ua.com.fennec.customs.ui.sectionSwitcher.OnSectionChangedListener;
 import ua.com.fennec.customs.ui.sectionSwitcher.SectionSwitcher;
 import ua.com.fennec.globalModules.getPhotoModule.adapters.GetPhotoRecycleAdapter;
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorOutput;
+import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoOutput;
+import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoRecycleAdapterOutput;
 import ua.com.fennec.preAuthFlow.PreAuthRouter;
 import ua.com.fennec.preAuthFlow.loginModule.LoginFragment;
 import ua.com.fennec.services.KeyboardService;
@@ -67,35 +69,50 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
     private GetPhotoRecycleAdapter publicAdapter = null;
     private GetPhotoRecycleAdapter privateAdapter = null;
     private Boolean isPrivateSection = true;
-
+    private GetPhotoRecycleAdapterOutput adapterOutput;
+    private GetPhotoOutput output;
     ArrayList<Uri> list = new ArrayList<>();
-    public static GetPhotoFragment showFragment(AppCompatActivity activity) {
+    public static GetPhotoFragment showFragment(AppCompatActivity activity, GetPhotoOutput output) {
         int layoutId = View.generateViewId();
         final ViewGroup viewGroup = (ViewGroup) ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
         FrameLayout layout = new FrameLayout(activity);
         layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         layout.setClickable(true);
         layout.setId(layoutId);
-        viewGroup.addView(layout);
+        Log.d(Constants.TAG, viewGroup.getChildCount() + " asdas");
+        viewGroup.addView(layout, 1);
 
 
-        GetPhotoFragment photoFragment = new GetPhotoFragment();
-
+        GetPhotoFragment photoFragment = new GetPhotoFragment(output);
         FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(android.R.animator.fade_in, android.R.animator.fade_out);
         ft.add(layoutId, photoFragment).commitAllowingStateLoss();
 
-
-
-
         return photoFragment;
     }
 
-
+    private GetPhotoFragment(GetPhotoOutput output) {
+        this.output = output;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         interactor = new GetPhotoInteractor(getContext(), this);
+        adapterOutput = new GetPhotoRecycleAdapterOutput() {
+            @Override
+            public void deleteTapped(String filepath) {
+                interactor.deleteImage(filepath);
+            }
+            @Override
+            public void imageTapped(String filepath) {
+                imageSelected(filepath);
+            }
+        };
+    }
+
+    private void imageSelected(String filepath) {
+        output.photoDidGot(filepath);
+        hide();
     }
 
 
@@ -167,9 +184,6 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
         });
         return rootView;
     }
-
-
-    // You can do the assignment inside onAttach or onCreate, i.e, before the activity is displayed
     ActivityResultLauncher<Intent> someActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             new ActivityResultCallback<ActivityResult>() {
@@ -182,17 +196,15 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
                             Log.d(Constants.TAG, BitmapCompat.getAllocationByteCount(bitmap) + " BYTES");
                             float aspectRatio = bitmap.getWidth() /
                                     (float) bitmap.getHeight();
-                            int height = 480;
+                            int height = 380;
                             int width = Math.round(height * aspectRatio);
                             bitmap = Bitmap.createScaledBitmap(
                                     bitmap, width, height, false);
+                            Log.d(Constants.TAG, BitmapCompat.getAllocationByteCount(bitmap) + " BYTES");
                             interactor.uploadImage(bitmap);
                         } catch (Exception e)
                         {
-                            //handle exception
                         }
-                        Log.d(Constants.TAG, uri.toString());
-//                        imageView.setImageURI(uri);
 
                     }
                 }
@@ -262,7 +274,7 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
     @Override
     public void privateGalleryGot(ArrayList<String> photos) {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
-        privateAdapter = new GetPhotoRecycleAdapter(getContext(), photos);
+        privateAdapter = new GetPhotoRecycleAdapter(getContext(), photos, adapterOutput, false);
         if (isPrivateSection == true) {
             recyclerView.setAdapter(privateAdapter);
         }
@@ -270,9 +282,14 @@ final public class GetPhotoFragment extends Fragment implements GetPhotoInteract
     @Override
     public void publicGalleryGot(ArrayList<String> photos) {
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
-        publicAdapter = new GetPhotoRecycleAdapter(getContext(), photos);
+        publicAdapter = new GetPhotoRecycleAdapter(getContext(), photos, adapterOutput, true);
         if (isPrivateSection == false) {
             recyclerView.setAdapter(publicAdapter);
         }
+    }
+
+    @Override
+    public void imageAdded(String path) {
+        imageSelected(path);
     }
 }

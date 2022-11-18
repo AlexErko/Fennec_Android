@@ -23,4 +23,15 @@
     <string name="profile_updated">Profile updated</string>
     <string name="personal">Personal</string>
     <string name="public1">Public</string>
+    <string name="menu">Menu</string>
+    <string name="products">Products</string>
+    <string name="product_groups">Product groups</string>
+    <string name="staff">Staff</string>
+    <string name="statistics">Statistics</string>
+    <string name="sales_history">Sales history</string>
+    <string name="trading_networks">Trading networks</string>
+    <string name="expenses">Expenses</string>
+    <string name="shops">Shops</string>
+    <string name="panel">Panel</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -10,9 +10,11 @@ import org.json.JSONObject;
 import ua.com.fennec.Constants;
 import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
+import ua.com.fennec.services.api.bodyModels.DeleteImageBody;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneModel;
+import ua.com.fennec.services.api.responseModels.ApiGalleryAddResponse;
 import ua.com.fennec.services.api.responseModels.ApiGetGallery;
 import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
 
@@ -74,14 +76,32 @@ public class ApiService  {
 
 
 
-
-    public void uploadImage(Bitmap image, ApiServiceOutput<ApiAnswerModel> output) {
-        imageClient.send(ApiEndpoints.f_api_gallery_add, image, new ApiClient.ApiClientOutput() {
+    public void deleteImage(DeleteImageBody body, ApiServiceOutput<ApiAnswerModel> output) {
+        client.send(ApiEndpoints.f_api_gallery_del, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
                 ApiAnswerModel answer = null;
                 try {
                     answer = new ApiAnswerModel(response);
+                } catch (JSONException exception) {
+                    exception.printStackTrace();
+                }
+                output.onResponse(answer);
+
+            }
+            @Override
+            public void onErrorResponse() {
+                output.onResponse(null);
+            }
+        });
+    }
+    public void uploadImage(Bitmap image, ApiServiceOutput<ApiGalleryAddResponse> output) {
+        imageClient.send(ApiEndpoints.f_api_gallery_add, image, new ApiClient.ApiClientOutput() {
+            @Override
+            public void onResponse(String response) {
+                ApiGalleryAddResponse answer = null;
+                try {
+                    answer = new ApiGalleryAddResponse(response);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }

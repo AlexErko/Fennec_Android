@@ -1,19 +1,14 @@
 package ua.com.fennec.afterAuthFlow.profileModule;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 
-import ua.com.fennec.Constants;
 import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
-import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
 import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;

@@ -8,13 +8,13 @@ import androidx.annotation.Nullable;
 
 import ua.com.fennec.Constants;
 import ua.com.fennec.R;
-import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOutput;
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
+import ua.com.fennec.services.api.bodyModels.DeleteImageBody;
 import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
+import ua.com.fennec.services.api.responseModels.ApiGalleryAddResponse;
 import ua.com.fennec.services.api.responseModels.ApiGetGallery;
-import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -31,20 +31,37 @@ public class GetPhotoInteractor {
     };
 
 
-
-    void uploadImage(Bitmap bitmap) {
+    void deleteImage(String filename) {
         LoadingService.start();
-        apiService.uploadImage(bitmap, new ApiServiceOutput<ApiAnswerModel>() {
+        apiService.deleteImage(new DeleteImageBody(filename), new ApiServiceOutput<ApiAnswerModel>() {
             @Nullable
             @Override
             public void onResponse(ApiAnswerModel response) {
                 if (response != null) {
                     if (response.status == 0) {
-                            getPrivateGallery();
+                        getPrivateGallery();
                     } else {
                         MessageService.showMessage(response.message, MessageService.Type.error, context);
                     }
                 }
+            }
+        });
+    }
+    void uploadImage(Bitmap bitmap) {
+        LoadingService.start();
+        apiService.uploadImage(bitmap, new ApiServiceOutput<ApiGalleryAddResponse>() {
+            @Nullable
+            @Override
+            public void onResponse(ApiGalleryAddResponse response) {
+                if (response != null) {
+                    if (response.answer.status == 0) {
+                        Log.d(Constants.TAG, "response path " + response.filepath);
+                            output.imageAdded(response.filepath);
+                    } else {
+                        MessageService.showMessage(response.answer.message, MessageService.Type.error, context);
+                    }
+                }
+                LoadingService.end();
             }
         });
     }

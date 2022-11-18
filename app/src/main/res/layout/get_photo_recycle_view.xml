@@ -7,6 +7,19 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:id="@+id/photoImageView"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
         android:layout_centerInParent="true"/>
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/photoImageView"
+        android:layout_alignEnd="@+id/photoImageView"
+        android:layout_marginTop="-2dp"
+        android:clickable="true"
+        android:layout_marginEnd="-8dp"
+        android:id="@+id/deleteButton"
+        android:src="@drawable/image_delete"/>
 
 </RelativeLayout>
