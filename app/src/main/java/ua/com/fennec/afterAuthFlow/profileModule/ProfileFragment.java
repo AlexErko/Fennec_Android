@@ -1,5 +1,7 @@
 package ua.com.fennec.afterAuthFlow.profileModule;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -74,26 +76,45 @@ public class ProfileFragment extends Fragment implements ProfileInteractorOutput
             }
         };
     }
+    @SuppressLint("ResourceType")
     private void configView(Profile profile) {
         newCompanyLogo = profile.company_logo;
         newUserLogo = profile.user_logo;
         if (StringService.isNull(profile.user_name) == false) {
             ((EditText) rootView.findViewById(R.id.nameEditText)).setText(profile.user_name);
+        } else {
+            ((EditText) rootView.findViewById(R.id.nameEditText)).setText("");
         }
         if (StringService.isNull(profile.user_email) == false) {
             ((EditText) rootView.findViewById(R.id.emailEditText)).setText(profile.user_email);
+        } else {
+            ((EditText) rootView.findViewById(R.id.emailEditText)).setText("");
         }
         if (StringService.isNull(profile.user_phone) == false) {
             ((EditText) rootView.findViewById(R.id.phoneEditText)).setText(profile.user_phone);
+        } else {
+            ((EditText) rootView.findViewById(R.id.phoneEditText)).setText("");
         }
         if (StringService.isNull(profile.company_name) == false) {
             ((EditText) rootView.findViewById(R.id.companyEditText)).setText(profile.company_name);
+        } else {
+            ((EditText) rootView.findViewById(R.id.companyEditText)).setText("");
         }
         if (StringService.isNull(profile.company_logo) == false) {
-            Glide.with(getContext()).load(Constants.HOST + "/" + profile.company_logo).into(((ImageView) rootView.findViewById(R.id.companyImageView)));
+            ImageView imageView = rootView.findViewById(R.id.companyImageView);
+            if (profile.company_logo == "") {
+                imageView.setImageDrawable(getContext().getDrawable(R.id.addImageButton));
+            } else {
+                Glide.with(getContext()).load(Constants.HOST + "/" + profile.user_logo).into((imageView));
+            }
         }
         if (StringService.isNull(profile.user_logo) == false) {
-            Glide.with(getContext()).load(Constants.HOST + "/" + profile.user_logo).into(((ImageView) rootView.findViewById(R.id.userImageView)));
+            ImageView imageView = rootView.findViewById(R.id.userImageView);
+            if (profile.user_logo == "") {
+                imageView.setImageDrawable(getContext().getDrawable(R.id.addImageButton));
+            } else {
+                Glide.with(getContext()).load(Constants.HOST + "/" + profile.user_logo).into((imageView));
+            }
         }
 
         ((ConfirmButton) rootView.findViewById(R.id.saveButton)).setActivated(getContext(), false);

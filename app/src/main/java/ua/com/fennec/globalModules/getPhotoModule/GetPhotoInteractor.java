@@ -12,9 +12,9 @@ import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorO
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
 import ua.com.fennec.services.api.bodyModels.DeleteImageBody;
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
+import ua.com.fennec.services.api.responseModels.ApiAnswerResponse;
 import ua.com.fennec.services.api.responseModels.ApiGalleryAddResponse;
-import ua.com.fennec.services.api.responseModels.ApiGetGallery;
+import ua.com.fennec.services.api.responseModels.ApiGetGalleryResponse;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -33,10 +33,10 @@ public class GetPhotoInteractor {
 
     void deleteImage(String filename) {
         LoadingService.start();
-        apiService.deleteImage(new DeleteImageBody(filename), new ApiServiceOutput<ApiAnswerModel>() {
+        apiService.deleteImage(new DeleteImageBody(filename), new ApiServiceOutput<ApiAnswerResponse>() {
             @Nullable
             @Override
-            public void onResponse(ApiAnswerModel response) {
+            public void onResponse(ApiAnswerResponse response) {
                 if (response != null) {
                     if (response.status == 0) {
                         getPrivateGallery();
@@ -67,10 +67,10 @@ public class GetPhotoInteractor {
     }
 
     void getPrivateGallery() {
-        apiService.getPrivateGallery(new ApiServiceOutput<ApiGetGallery>() {
+        apiService.getPrivateGallery(new ApiServiceOutput<ApiGetGalleryResponse>() {
             @Nullable
             @Override
-            public void onResponse(ApiGetGallery response) {
+            public void onResponse(ApiGetGalleryResponse response) {
                 if (response != null) {
                     if (response.answer.status == 0) {
                         if (response.photos != null) {
@@ -88,10 +88,10 @@ public class GetPhotoInteractor {
         });
     }
     void getPublicGallery() {
-        apiService.getPublicGallery(new ApiServiceOutput<ApiGetGallery>() {
+        apiService.getPublicGallery(new ApiServiceOutput<ApiGetGalleryResponse>() {
             @Nullable
             @Override
-            public void onResponse(ApiGetGallery response) {
+            public void onResponse(ApiGetGalleryResponse response) {
                 if (response != null) {
                     if (response.answer.status == 0) {
                         if (response.photos != null) {

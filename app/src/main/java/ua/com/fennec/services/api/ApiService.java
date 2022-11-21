@@ -12,11 +12,12 @@ import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
 import ua.com.fennec.services.api.bodyModels.DeleteImageBody;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
-import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneModel;
+import ua.com.fennec.services.api.responseModels.ApiAnswerResponse;
+import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneResponse;
 import ua.com.fennec.services.api.responseModels.ApiGalleryAddResponse;
-import ua.com.fennec.services.api.responseModels.ApiGetGallery;
-import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
+import ua.com.fennec.services.api.responseModels.ApiGetGalleryResponse;
+import ua.com.fennec.services.api.responseModels.ApiGetProductResponse;
+import ua.com.fennec.services.api.responseModels.ApiGetProfileResponse;
 
 
 public class ApiService  {
@@ -31,13 +32,13 @@ public class ApiService  {
         this.imageClient = new ApiImageClient(context);
     }
 
-    public void confirmAuthPhone(ConfirmAuthPhoneBody body, ApiServiceOutput<ApiConfirmAuthPhoneModel> output) {
+    public void confirmAuthPhone(ConfirmAuthPhoneBody body, ApiServiceOutput<ApiConfirmAuthPhoneResponse> output) {
         client.send(ApiEndpoints.f_api_auth_phone_confirm, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiConfirmAuthPhoneModel answer = null;
+                ApiConfirmAuthPhoneResponse answer = null;
                 try {
-                    answer = new ApiConfirmAuthPhoneModel(response);
+                    answer = new ApiConfirmAuthPhoneResponse(response);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
@@ -51,13 +52,13 @@ public class ApiService  {
         });
     }
 
-    public void authPhone(AuthPhoneBody body, ApiServiceOutput<ApiAnswerModel> output) {
+    public void authPhone(AuthPhoneBody body, ApiServiceOutput<ApiAnswerResponse> output) {
         client.send(ApiEndpoints.f_api_auth_phone, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiAnswerModel answer = null;
+                ApiAnswerResponse answer = null;
                 try {
-                    answer = new ApiAnswerModel(response);
+                    answer = new ApiAnswerResponse(response);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
@@ -76,13 +77,13 @@ public class ApiService  {
 
 
 
-    public void deleteImage(DeleteImageBody body, ApiServiceOutput<ApiAnswerModel> output) {
+    public void deleteImage(DeleteImageBody body, ApiServiceOutput<ApiAnswerResponse> output) {
         client.send(ApiEndpoints.f_api_gallery_del, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiAnswerModel answer = null;
+                ApiAnswerResponse answer = null;
                 try {
-                    answer = new ApiAnswerModel(response);
+                    answer = new ApiAnswerResponse(response);
                 } catch (JSONException exception) {
                     exception.printStackTrace();
                 }
@@ -114,14 +115,14 @@ public class ApiService  {
             }
         });
     }
-    public void getProfile(ApiServiceOutput<ApiGetProfileModel> output) {
+    public void getProfile(ApiServiceOutput<ApiGetProfileResponse> output) {
         client.send(ApiEndpoints.f_api_profile_get, new JSONObject(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiGetProfileModel answer = null;
+                ApiGetProfileResponse answer = null;
                 Log.d(Constants.TAG, response);
                 try {
-                    answer = new ApiGetProfileModel(response);
+                    answer = new ApiGetProfileResponse(response);
                 } catch (JSONException exception) {
                     Log.d(Constants.TAG, "Catch Error GetProfile");
                     exception.printStackTrace();
@@ -135,14 +136,14 @@ public class ApiService  {
             }
         });
     }
-    public void getPrivateGallery(ApiServiceOutput<ApiGetGallery> output) {
+    public void getPrivateGallery(ApiServiceOutput<ApiGetGalleryResponse> output) {
         client.send(ApiEndpoints.f_api_gallery_private_get, new JSONObject(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiGetGallery answer = null;
+                ApiGetGalleryResponse answer = null;
                 Log.d(Constants.TAG, response);
                 try {
-                    answer = new ApiGetGallery(response);
+                    answer = new ApiGetGalleryResponse(response);
                 } catch (JSONException exception) {
                     Log.d(Constants.TAG, "Catch Error getPublicGallery");
                     exception.printStackTrace();
@@ -157,14 +158,14 @@ public class ApiService  {
         });
     }
 
-    public void getPublicGallery(ApiServiceOutput<ApiGetGallery> output) {
+    public void getPublicGallery(ApiServiceOutput<ApiGetGalleryResponse> output) {
         client.send(ApiEndpoints.f_api_gallery_public_get, new JSONObject(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiGetGallery answer = null;
+                ApiGetGalleryResponse answer = null;
                 Log.d(Constants.TAG, response);
                 try {
-                    answer = new ApiGetGallery(response);
+                    answer = new ApiGetGalleryResponse(response);
                 } catch (JSONException exception) {
                     Log.d(Constants.TAG, "Catch Error getPublicGallery");
                     exception.printStackTrace();
@@ -178,14 +179,14 @@ public class ApiService  {
             }
         });
     }
-    public void updateProfile(UpdateProfileBody body, ApiServiceOutput<ApiGetProfileModel> output) {
+    public void updateProfile(UpdateProfileBody body, ApiServiceOutput<ApiGetProfileResponse> output) {
         client.send(ApiEndpoints.f_api_profile_update, body.getBody(), new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
-                ApiGetProfileModel answer = null;
+                ApiGetProfileResponse answer = null;
                 Log.d(Constants.TAG, response);
                 try {
-                    answer = new ApiGetProfileModel(response);
+                    answer = new ApiGetProfileResponse(response);
                 } catch (JSONException exception) {
                     Log.d(Constants.TAG, "Catch Error updateProfile");
                     exception.printStackTrace();
@@ -198,6 +199,29 @@ public class ApiService  {
                 output.onResponse(null);
             }
         });
+    }
+
+    public void getProducts(ApiServiceOutput<ApiGetProductResponse> output) {
+        client.send(ApiEndpoints.f_api_products_get, new JSONObject(), new ApiClient.ApiClientOutput() {
+            @Override
+            public void onResponse(String response) {
+                ApiGetProductResponse answer = null;
+                Log.d(Constants.TAG, response);
+                try {
+                    answer = new ApiGetProductResponse(response);
+                } catch (JSONException exception) {
+                    Log.d(Constants.TAG, "Catch Error updateProfile");
+                    exception.printStackTrace();
+                }
+                output.onResponse(answer);
+
+            }
+            @Override
+            public void onErrorResponse() {
+                output.onResponse(null);
+            }
+        });
+
     }
 }
 

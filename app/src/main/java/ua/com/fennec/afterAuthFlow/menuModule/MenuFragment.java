@@ -19,14 +19,20 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import ua.com.fennec.R;
+import ua.com.fennec.afterAuthFlow.AfterAuthRouter;
 import ua.com.fennec.services.KeyboardService;
 import ua.com.fennec.services.unit.Unit;
 
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements MenuRecycleAdapterOutput {
 
     private View rootView;
+    private AfterAuthRouter router;
 
 
+
+    public MenuFragment(AfterAuthRouter router) {
+        this.router = router;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +41,7 @@ public class MenuFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        hide();
     }
 
     @Override
@@ -44,7 +50,7 @@ public class MenuFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_menu, container, false);
         RecyclerView recyclerView = rootView.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        recyclerView.setAdapter(new MenuRecycleAdapter(getContext(), MenuButton.getArray()));
+        recyclerView.setAdapter(new MenuRecycleAdapter(getContext(), MenuButton.getArray(), this));
 
 
 
@@ -56,6 +62,7 @@ public class MenuFragment extends Fragment {
         });
         return rootView;
     }
+
 
 
 
@@ -126,5 +133,19 @@ public class MenuFragment extends Fragment {
     void hideFragment() {
         FragmentManager fragmentManager = getParentFragmentManager();
         fragmentManager.beginTransaction().hide(this).commitAllowingStateLoss();
+    }
+
+    @Override
+    public void menuButtonTapped(MenuButton button) {
+        switch (button) {
+            case profile:
+                router.toProfile();
+                break;
+            case products:
+                router.toProducts();
+                break;
+        }
+
+        hide();
     }
 }

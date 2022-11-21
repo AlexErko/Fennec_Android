@@ -9,7 +9,7 @@ import ua.com.fennec.afterAuthFlow.profileModule.interfaces.ProfileInteractorOut
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
 import ua.com.fennec.services.api.bodyModels.UpdateProfileBody;
-import ua.com.fennec.services.api.responseModels.ApiGetProfileModel;
+import ua.com.fennec.services.api.responseModels.ApiGetProfileResponse;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -28,10 +28,10 @@ public class ProfileInteractor {
 
     void updateProfile(UpdateProfileBody body) {
         LoadingService.start();
-        apiService.updateProfile(body, new ApiServiceOutput<ApiGetProfileModel>() {
+        apiService.updateProfile(body, new ApiServiceOutput<ApiGetProfileResponse>() {
             @Nullable
             @Override
-            public void onResponse(ApiGetProfileModel response) {
+            public void onResponse(ApiGetProfileResponse response) {
                 if (response != null) {
                     if (response.answer.status == 0) {
                         if (response.profile != null) {
@@ -49,9 +49,9 @@ public class ProfileInteractor {
     }
     void getProfile() {
         LoadingService.start();
-        apiService.getProfile(new ApiServiceOutput<ApiGetProfileModel>() {
+        apiService.getProfile(new ApiServiceOutput<ApiGetProfileResponse>() {
             @Override
-            public void onResponse(ApiGetProfileModel response) {
+            public void onResponse(ApiGetProfileResponse response) {
                 if (response != null) {
                     if (response.answer.status == 0) {
                         if (response.profile != null) {

@@ -3,9 +3,6 @@ package ua.com.fennec.models;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
-import ua.com.fennec.services.string.StringService;
-
 public class Profile {
     public String company_name;
     public String company_logo;

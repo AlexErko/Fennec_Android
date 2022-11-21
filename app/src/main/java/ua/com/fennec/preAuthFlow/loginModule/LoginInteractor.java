@@ -1,18 +1,12 @@
 package ua.com.fennec.preAuthFlow.loginModule;
 
 import android.content.Context;
-import android.util.Log;
 
-import org.json.JSONObject;
-
-import ua.com.fennec.Constants;
 import ua.com.fennec.preAuthFlow.loginModule.interfaces.LoginInteractorOutput;
-import ua.com.fennec.services.api.ApiEndpoints;
-import ua.com.fennec.services.api.ApiRequestType;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
 import ua.com.fennec.services.api.bodyModels.AuthPhoneBody;
-import ua.com.fennec.services.api.responseModels.ApiAnswerModel;
+import ua.com.fennec.services.api.responseModels.ApiAnswerResponse;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -34,9 +28,9 @@ public class LoginInteractor {
     void authPhone(String phone) {
         LoadingService.start();
         AuthPhoneBody body = new AuthPhoneBody(phone);
-        apiService.authPhone(body, new ApiServiceOutput<ApiAnswerModel>() {
+        apiService.authPhone(body, new ApiServiceOutput<ApiAnswerResponse>() {
             @Override
-            public void onResponse(ApiAnswerModel response) {
+            public void onResponse(ApiAnswerResponse response) {
                 LoadingService.end();
                 if (response != null) {
                     if (response.status == 0) {

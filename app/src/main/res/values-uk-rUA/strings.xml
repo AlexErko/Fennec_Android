@@ -34,4 +34,5 @@
     <string name="shops">Магазини</string>
     <string name="panel">Панель</string>
     <string name="logout">Вийти</string>
+    <string name="show_20_more_products">відкрити ще 20 товарів</string>
 </resources>

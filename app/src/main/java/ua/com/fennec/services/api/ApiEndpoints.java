@@ -15,6 +15,11 @@ public class ApiEndpoints {
 
     public static String f_api_gallery_private_get = "f_api_gallery_private_get";
     public static String f_api_gallery_public_get = "f_api_gallery_public_get";
+
+    public static String f_api_products_get = "f_api_products_get";
+    public static String f_api_products_add = "f_api_products_add";
+    public static String f_api_products_del = "f_api_products_del";
+    public static String f_api_products_update = "f_api_products_update";
 }
 
 

@@ -16,6 +16,7 @@ import ua.com.fennec.Constants;
 import ua.com.fennec.MainActivityRouter;
 import ua.com.fennec.R;
 import ua.com.fennec.afterAuthFlow.menuModule.MenuFragment;
+import ua.com.fennec.afterAuthFlow.products.ProductsFragment;
 import ua.com.fennec.afterAuthFlow.profileModule.ProfileFragment;
 import ua.com.fennec.customs.FennecFragment;
 
@@ -24,7 +25,7 @@ public class AfterAuthCoordinator extends FennecFragment implements AfterAuthRou
 
     View rootView;
     MainActivityRouter router;
-    private MenuFragment menuFragment = new MenuFragment();
+    private MenuFragment menuFragment = new MenuFragment(this);
     public AfterAuthCoordinator(MainActivityRouter router) {
         this.router = router;
     }
@@ -67,7 +68,13 @@ public class AfterAuthCoordinator extends FennecFragment implements AfterAuthRou
     }
 
     @Override
+    public void toProducts() {
+        showFragment(new ProductsFragment(this), false);
+    }
+
+    @Override
     public void showMenu() {
         menuFragment.show();
     }
+
 }

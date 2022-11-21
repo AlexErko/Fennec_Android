@@ -23,9 +23,11 @@ public class MenuRecycleAdapter extends RecyclerView.Adapter<MenuRecycleAdapter.
         private ArrayList<MenuButton> buttons;
         private LayoutInflater mInflater;
 
-        public MenuRecycleAdapter(Context context, ArrayList<MenuButton> buttons) {
+        private MenuRecycleAdapterOutput output;
+        public MenuRecycleAdapter(Context context, ArrayList<MenuButton> buttons,MenuRecycleAdapterOutput output) {
             this.mInflater = LayoutInflater.from(context);
             this.buttons = buttons;
+            this.output = output;
         }
 
 
@@ -41,6 +43,12 @@ public class MenuRecycleAdapter extends RecyclerView.Adapter<MenuRecycleAdapter.
             MenuButtonData data = buttons.get(position).getTitle(mInflater.getContext());
             holder.imageView.setImageDrawable(data.image);
             holder.textView.setText(data.title);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    output.menuButtonTapped(buttons.get(position));
+                }
+            });
         }
         @Override
         public int getItemCount() {

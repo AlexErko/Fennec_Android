@@ -34,4 +34,5 @@
     <string name="shops">Shops</string>
     <string name="panel">Panel</string>
     <string name="logout">Logout</string>
+    <string name="show_20_more_products">show 20 more products</string>
 </resources>

@@ -6,7 +6,7 @@ import ua.com.fennec.preAuthFlow.codeModule.interfaces.CodeInteractorOutput;
 import ua.com.fennec.services.api.ApiService;
 import ua.com.fennec.services.api.ApiServiceOutput;
 import ua.com.fennec.services.api.bodyModels.ConfirmAuthPhoneBody;
-import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneModel;
+import ua.com.fennec.services.api.responseModels.ApiConfirmAuthPhoneResponse;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 
@@ -27,9 +27,9 @@ public class CodeInteractor {
     void confirmAuthPhone(String phone, String code) {
         LoadingService.start();
         ConfirmAuthPhoneBody body = new ConfirmAuthPhoneBody(phone, code);
-        apiService.confirmAuthPhone(body, new ApiServiceOutput<ApiConfirmAuthPhoneModel>() {
+        apiService.confirmAuthPhone(body, new ApiServiceOutput<ApiConfirmAuthPhoneResponse>() {
             @Override
-            public void onResponse(ApiConfirmAuthPhoneModel response) {
+            public void onResponse(ApiConfirmAuthPhoneResponse response) {
                 LoadingService.end();
                 if (response != null) {
                     if (response.answer.status == 0) {

@@ -6,13 +6,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import ua.com.fennec.models.Profile;
-
-public class ApiGetGallery {
-    public ApiAnswerModel answer;
+public class ApiGetGalleryResponse {
+    public ApiAnswerResponse answer;
     public ArrayList<String> photos = new ArrayList<>();
-    public ApiGetGallery(String jsonString) throws JSONException {
-        this.answer = new ApiAnswerModel(jsonString);
+    public ApiGetGalleryResponse(String jsonString) throws JSONException {
+        this.answer = new ApiAnswerResponse(jsonString);
         JSONArray array = new JSONObject(jsonString).getJSONArray("result");
 
         for (int i = 0; i < array.length(); i++) {
