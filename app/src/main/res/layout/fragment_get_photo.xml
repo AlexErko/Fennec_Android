@@ -6,7 +6,7 @@
     android:id="@+id/constraintLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".preAuthFlow.codeModule.CodeFragment">
+    tools:context=".modules.preAuthFlow.codeModule.CodeFragment">
 
 
 

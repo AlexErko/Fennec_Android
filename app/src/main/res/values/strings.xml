@@ -34,5 +34,9 @@
     <string name="shops">Shops</string>
     <string name="panel">Panel</string>
     <string name="logout">Logout</string>
-    <string name="show_20_more_products">show 20 more products</string>
+    <string name="show_30_more_products">show 30 more products</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="edit">Edit</string>
+    <string name="delete">Delete</string>
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

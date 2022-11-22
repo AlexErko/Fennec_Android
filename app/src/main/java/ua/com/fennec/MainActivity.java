@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import ua.com.fennec.afterAuthFlow.AfterAuthCoordinator;
-import ua.com.fennec.preAuthFlow.PreAuthCoordinator;
+import ua.com.fennec.modules.afterAuthFlow.AfterAuthCoordinator;
+import ua.com.fennec.modules.preAuthFlow.PreAuthCoordinator;
 import ua.com.fennec.services.loading.LoadingService;
 import ua.com.fennec.services.message.MessageService;
 import ua.com.fennec.services.storage.StorageService;

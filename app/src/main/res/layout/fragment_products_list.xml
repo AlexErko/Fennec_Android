@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    style="@style/SCREEN"
+    tools:context=".modules.afterAuthFlow.profileModule.ProfileFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="24dp"
+        android:layout_marginHorizontal="17dp"
+        android:layout_height="40dp">
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/menuButton"
+            style="@style/MENU_BUTTON"
+            android:layout_marginRight="8dp"
+            android:layout_gravity="center_vertical"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/products"
+            android:gravity="center"
+            style="@style/TITLE"
+            />
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/addButton"
+            android:src="@drawable/image_add"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView"
+        android:overScrollMode="never"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="17dp"/>
+
+
+
+</LinearLayout>

@@ -201,8 +201,15 @@ public class ApiService  {
         });
     }
 
-    public void getProducts(ApiServiceOutput<ApiGetProductResponse> output) {
-        client.send(ApiEndpoints.f_api_products_get, new JSONObject(), new ApiClient.ApiClientOutput() {
+    public void getProducts(Integer page, ApiServiceOutput<ApiGetProductResponse> output) {
+        JSONObject object = new JSONObject();
+        try {
+            object.put("page", page);
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
+
+        client.send(ApiEndpoints.f_api_products_get, object, new ApiClient.ApiClientOutput() {
             @Override
             public void onResponse(String response) {
                 ApiGetProductResponse answer = null;

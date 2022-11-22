@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/SCREEN"
-    tools:context=".afterAuthFlow.profileModule.ProfileFragment">
+    tools:context=".modules.afterAuthFlow.profileModule.ProfileFragment">
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="horizontal"

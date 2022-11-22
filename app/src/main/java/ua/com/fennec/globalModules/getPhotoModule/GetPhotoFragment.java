@@ -4,20 +4,16 @@ import android.Manifest;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -34,19 +30,11 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.time.Instant;
 import java.util.ArrayList;
 
-import droidninja.filepicker.FilePickerBuilder;
-import droidninja.filepicker.FilePickerConst;
-import kotlin.jvm.internal.Intrinsics;
 import pub.devrel.easypermissions.EasyPermissions;
 import ua.com.fennec.Constants;
-import ua.com.fennec.MainActivity;
 import ua.com.fennec.R;
-import ua.com.fennec.customs.FennecBottomFragment;
 import ua.com.fennec.customs.swipeGesture.OnSwipeTouchListener;
 import ua.com.fennec.customs.ui.sectionSwitcher.OnSectionChangedListener;
 import ua.com.fennec.customs.ui.sectionSwitcher.SectionSwitcher;
@@ -54,13 +42,7 @@ import ua.com.fennec.globalModules.getPhotoModule.adapters.GetPhotoRecycleAdapte
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoInteractorOutput;
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoOutput;
 import ua.com.fennec.globalModules.getPhotoModule.interfaces.GetPhotoRecycleAdapterOutput;
-import ua.com.fennec.preAuthFlow.PreAuthRouter;
-import ua.com.fennec.preAuthFlow.loginModule.LoginFragment;
 import ua.com.fennec.services.KeyboardService;
-import ua.com.fennec.services.unit.Unit;
-
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
 
 final public class GetPhotoFragment extends Fragment implements GetPhotoInteractorOutput {
 

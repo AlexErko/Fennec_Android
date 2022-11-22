@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     style="@style/SCREEN"
-    tools:context=".preAuthFlow.loginModule.LoginFragment">
+    tools:context=".modules.preAuthFlow.loginModule.LoginFragment">
 
 
 
